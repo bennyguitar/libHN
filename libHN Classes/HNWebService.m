@@ -213,7 +213,7 @@
                 if ([responseString rangeOfString:@">Bad login.<"].location == NSNotFound) {
                     // Login Succeded, let's create a user
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self part3loginWithUsername:user completion:completion];
+                        [self getUser:user completion:completion];
                     });
                 }
                 else {
@@ -238,7 +238,7 @@
     [self.HNQueue addOperation:operation];
 }
 
-- (void)part3loginWithUsername:(NSString *)user completion:(LoginCompletion)completion {
+- (void)getUser:(NSString *)user completion:(LoginCompletion)completion {
     // And finally we attempt to create the User
     // Build URL String
     NSString *urlPath = [NSString stringWithFormat:@"%@user?id=%@", kBaseURLAddress, user];
@@ -276,6 +276,60 @@
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completion(nil);
+            });
+        }
+    }];
+    [self.HNQueue addOperation:operation];
+}
+
+
+- (void)validateAndSetSessionWithCompletion:(BooleanSuccessBlock)completion {
+    // And finally we attempt to create the User
+    // Build URL String
+    NSString *urlPath = [NSString stringWithFormat:@"%@", kBaseURLAddress];
+    
+    // Start the Operation
+    HNOperation *operation = [[HNOperation alloc] init];
+    __block HNOperation *blockOperation = operation;
+    [operation setUrlPath:urlPath data:nil completion:^{
+        if (blockOperation.responseData) {
+            // Now attempt part 3
+            NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+            if (html) {
+                if ([html rangeOfString:@"<a href=\"logout?whence=%6e%65%77%73\">"].location != NSNotFound) {
+                    NSScanner *scanner = [[NSScanner alloc] initWithString:html];
+                    NSString *trash = @"", *userString = @"";
+                    [scanner scanUpToString:@"<a href=\"threads?id=" intoString:&trash];
+                    [scanner scanString:@"<a href=\"threads?id=" intoString:&trash];
+                    [scanner scanUpToString:@"\">" intoString:&userString];
+                    [self getUser:userString completion:^(HNUser *user) {
+                        if (user) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                completion(YES);
+                            });
+                        }
+                        else {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                completion(NO);
+                            });
+                        }
+                    }];
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        completion(NO);
+                    });
+                }
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(NO);
+                });
+            }
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(NO);
             });
         }
     }];

@@ -35,7 +35,11 @@ static HNManager * _sharedManager = nil;
 
 - (instancetype)init {
 	if (self = [super init]) {
+        // Set up Webservice
         self.Service = [[HNWebService alloc] init];
+        
+        // Set SessionCookie & SessionUser
+        [self validateAndSetCookie];
 	}
 	return self;
 }
@@ -61,6 +65,25 @@ static HNManager * _sharedManager = nil;
 - (void)loadCommentsFromPost:(HNPost *)post completion:(GetCommentsCompletion)completion {
     [self.Service loadCommentsFromPost:post completion:completion];
 }
+
+
+#pragma mark - Set Cookie & User
+- (void)validateAndSetCookie {
+    NSArray *cookieArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"https://news.ycombinator.com/"]];
+    if (cookieArray.count > 0) {
+        NSHTTPCookie *cookie = cookieArray[0];
+        if ([cookie.name isEqualToString:@"user"]) {
+            // Validate Session
+            [self.Service validateAndSetSessionWithCompletion:^(BOOL success) {
+                if (success) {
+                    self.SessionCookie = cookie;
+                }
+            }];
+        }
+    }
+}
+
+
 
 
 
