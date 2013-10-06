@@ -36,6 +36,7 @@ typedef void (^BooleanSuccessBlock) (BOOL success);
 // Methods
 - (void)loadPostsWithFilter:(PostFilterType)filter completion:(GetPostsCompletion)completion;
 - (void)loadPostsWithFNID:(NSString *)fnid completion:(GetPostsCompletion)completion;
+- (void)loadCommentsFromPost:(HNPost *)post completion:(GetCommentsCompletion)completion;
 
 @end
 

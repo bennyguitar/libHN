@@ -10,7 +10,6 @@
 
 typedef NS_ENUM(NSInteger, PostType) {
     PostTypeDefault,
-    PostTypeShowHN,
     PostTypeAskHN,
     PostTypeJobs
 };

@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, CommentType) {
 @property (nonatomic, retain) NSArray *Links;
 
 #pragma mark - Methods
-+ (NSArray *)parsedCommentsFromHTML:(NSString *)html fnid:(NSString **)fnid;
++ (NSArray *)parsedCommentsFromHTML:(NSString *)html;
 
 
 @end

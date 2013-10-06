@@ -15,7 +15,6 @@
 #pragma mark - Properties
 @property (nonatomic, retain) HNWebService *Service;
 @property (nonatomic, retain) NSString *postFNID;
-@property (nonatomic, retain) NSString *commentFNID;
 
 #pragma mark - Singleton Manager
 + (HNManager *)sharedManager;
@@ -25,5 +24,6 @@
 - (void)logout;
 - (void)loadPostsWithFilter:(PostFilterType)filter completion:(GetPostsCompletion)completion;
 - (void)loadPostsWithFNID:(NSString *)fnid completion:(GetPostsCompletion)completion;
+- (void)loadCommentsFromPost:(HNPost *)post completion:(GetCommentsCompletion)completion;
 
 @end

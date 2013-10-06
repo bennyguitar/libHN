@@ -12,7 +12,7 @@
 @implementation HNComment
 
 #pragma mark - Parse Comments
-+ (NSArray *)parsedCommentsFromHTML:(NSString *)html fnid:(NSString *__autoreleasing *)fnid {
++ (NSArray *)parsedCommentsFromHTML:(NSString *)html {
     return @[];
 }
 

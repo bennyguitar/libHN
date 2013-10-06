@@ -112,6 +112,39 @@
     }];
 }
 
+
+#pragma mark - Load Comments from Post
+- (void)loadCommentsFromPost:(HNPost *)post completion:(GetCommentsCompletion)completion {
+    // Create URL Path
+    NSString *urlPath = [NSString stringWithFormat:@"%@item?id=%@", kBaseURLAddress, post.PostId];
+    
+    // Load the Posts
+    HNOperation *operation = [[HNOperation alloc] init];
+    __block HNOperation *blockOperation = operation;
+    [operation setUrlPath:urlPath data:Nil completion:^{
+        if (blockOperation.responseData) {
+            NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+            NSArray *comments = [HNComment parsedCommentsFromHTML:html];
+            if (comments) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(comments);
+                });
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(nil);
+                });
+            }
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(nil);
+            });
+        }
+    }];
+
+}
+
 @end
 
 

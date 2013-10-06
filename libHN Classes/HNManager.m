@@ -58,6 +58,10 @@ static HNManager * _sharedManager = nil;
     [self.Service loadPostsWithFNID:fnid completion:completion];
 }
 
+- (void)loadCommentsFromPost:(HNPost *)post completion:(GetCommentsCompletion)completion {
+    [self.Service loadCommentsFromPost:post completion:completion];
+}
+
 
 
 @end
