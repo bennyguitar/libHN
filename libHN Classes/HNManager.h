@@ -23,7 +23,7 @@
 #pragma mark - WebService Methods
 - (void)loginWithUsername:(NSString *)user password:(NSString *)pass completion:(BooleanSuccessBlock)completion;
 - (void)logout;
-- (void)loadPostsWithFilter:(int)filter completion:(GetPostsCompletion)completion;
+- (void)loadPostsWithFilter:(PostFilterType)filter completion:(GetPostsCompletion)completion;
 - (void)loadPostsWithFNID:(NSString *)fnid completion:(GetPostsCompletion)completion;
 
 @end

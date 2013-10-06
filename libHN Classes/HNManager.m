@@ -50,12 +50,12 @@ static HNManager * _sharedManager = nil;
     
 }
 
-- (void)loadPostsWithFilter:(int)filter completion:(GetPostsCompletion)completion {
-    
+- (void)loadPostsWithFilter:(PostFilterType)filter completion:(GetPostsCompletion)completion {
+    [self.Service loadPostsWithFilter:filter completion:completion];
 }
 
 - (void)loadPostsWithFNID:(NSString *)fnid completion:(GetPostsCompletion)completion {
-    
+    [self.Service loadPostsWithFNID:fnid completion:completion];
 }
 
 
