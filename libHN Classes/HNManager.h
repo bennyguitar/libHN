@@ -28,4 +28,7 @@
 - (void)loadPostsWithFNID:(NSString *)fnid completion:(GetPostsCompletion)completion;
 - (void)loadCommentsFromPost:(HNPost *)post completion:(GetCommentsCompletion)completion;
 
+#pragma mark - Internal Methods
++ (NSHTTPCookie *)getHNCookie;
+
 @end

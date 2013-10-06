@@ -256,6 +256,11 @@
                     // Set the Session User
                     [[HNManager sharedManager] setSessionUser:user];
                     
+                    // Set the SessionCookie if it doesn't exist
+                    if (![[HNManager sharedManager] SessionCookie]) {
+                        [[HNManager sharedManager] setSessionCookie:[HNManager getHNCookie]];
+                    }
+                    
                     // Finally return the user we've been looking for
                     dispatch_async(dispatch_get_main_queue(), ^{
                         completion(user);

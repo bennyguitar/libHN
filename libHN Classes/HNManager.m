@@ -69,20 +69,27 @@ static HNManager * _sharedManager = nil;
 
 #pragma mark - Set Cookie & User
 - (void)validateAndSetCookie {
+    NSHTTPCookie *cookie = [HNManager getHNCookie];
+    if (cookie) {
+        [self.Service validateAndSetSessionWithCookie:cookie completion:^(BOOL success) {
+            if (success) {
+                self.SessionCookie = cookie;
+            }
+        }];
+    }
+}
+
++ (NSHTTPCookie *)getHNCookie {
     NSArray *cookieArray = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:[NSURL URLWithString:@"https://news.ycombinator.com/"]];
     if (cookieArray.count > 0) {
         NSHTTPCookie *cookie = cookieArray[0];
         if ([cookie.name isEqualToString:@"user"]) {
-            // Validate Session
-            [self.Service validateAndSetSessionWithCookie:cookie completion:^(BOOL success) {
-                if (success) {
-                    self.SessionCookie = cookie;
-                }
-            }];
+            return cookie;
         }
     }
+    
+    return nil;
 }
-
 
 
 
