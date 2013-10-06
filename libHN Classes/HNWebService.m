@@ -53,7 +53,7 @@
     // Load the Posts
     HNOperation *operation = [[HNOperation alloc] init];
     __block HNOperation *blockOperation = operation;
-    [operation setUrlPath:urlPath data:nil completion:^{
+    [operation setUrlPath:urlPath data:nil cookie:nil completion:^{
         if (blockOperation.responseData) {
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
             NSString *fnid = @"";
@@ -88,7 +88,7 @@
     // Load the Posts
     HNOperation *operation = [[HNOperation alloc] init];
     __block HNOperation *blockOperation = operation;
-    [operation setUrlPath:urlPath data:nil completion:^{
+    [operation setUrlPath:urlPath data:nil cookie:nil completion:^{
         if (blockOperation.responseData) {
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
             NSString *fnid = @"";
@@ -123,7 +123,7 @@
     // Load the Comments
     HNOperation *operation = [[HNOperation alloc] init];
     __block HNOperation *blockOperation = operation;
-    [operation setUrlPath:urlPath data:nil completion:^{
+    [operation setUrlPath:urlPath data:nil cookie:nil completion:^{
         if (blockOperation.responseData) {
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
             NSArray *comments = [HNComment parsedCommentsFromHTML:html forPost:post];
@@ -162,7 +162,7 @@
     // Build the operation
     HNOperation *operation = [[HNOperation alloc] init];
     __block HNOperation *blockOperation = operation;
-    [operation setUrlPath:urlPath data:nil completion:^{
+    [operation setUrlPath:urlPath data:nil cookie:nil completion:^{
         if (blockOperation.responseData) {
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
             if (html) {
@@ -205,7 +205,7 @@
     // Start the Operation
     HNOperation *operation = [[HNOperation alloc] init];
     __block HNOperation *blockOperation = operation;
-    [operation setUrlPath:urlPath data:bodyData completion:^{
+    [operation setUrlPath:urlPath data:bodyData cookie:nil completion:^{
         if (blockOperation.responseData) {
             // Now attempt part 3
             NSString *responseString = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
@@ -246,7 +246,7 @@
     // Start the Operation
     HNOperation *operation = [[HNOperation alloc] init];
     __block HNOperation *blockOperation = operation;
-    [operation setUrlPath:urlPath data:nil completion:^{
+    [operation setUrlPath:urlPath data:nil cookie:nil completion:^{
         if (blockOperation.responseData) {
             // Now attempt part 3
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
@@ -283,7 +283,7 @@
 }
 
 
-- (void)validateAndSetSessionWithCompletion:(BooleanSuccessBlock)completion {
+- (void)validateAndSetSessionWithCookie:(NSHTTPCookie *)cookie completion:(BooleanSuccessBlock)completion {
     // And finally we attempt to create the User
     // Build URL String
     NSString *urlPath = [NSString stringWithFormat:@"%@", kBaseURLAddress];
@@ -291,7 +291,7 @@
     // Start the Operation
     HNOperation *operation = [[HNOperation alloc] init];
     __block HNOperation *blockOperation = operation;
-    [operation setUrlPath:urlPath data:nil completion:^{
+    [operation setUrlPath:urlPath data:nil cookie:cookie completion:^{
         if (blockOperation.responseData) {
             // Now attempt part 3
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
@@ -347,8 +347,14 @@
 @implementation HNOperation
 
 #pragma mark - Set URL Path
--(void)setUrlPath:(NSString *)path data:(NSData *)data completion:(void (^)(void))block {
-    self.urlPath = path;
+-(void)setUrlPath:(NSString *)path data:(NSData *)data cookie:(NSHTTPCookie *)cookie completion:(void (^)(void))block {
+    if (self.bodyData) {
+        self.urlRequest = [HNOperation newJSONRequestWithURL:[NSURL URLWithString:path] bodyData:self.bodyData cookie:cookie];
+    }
+    else {
+        self.urlRequest = [HNOperation newGetRequestForURL:[NSURL URLWithString:path] cookie:cookie];
+    }
+    
     [self setCompletionBlock:block];
     if (data) {
         self.bodyData = data;
@@ -364,37 +370,36 @@
 
 #pragma mark - Main Run Loop
 -(void)main {
-    // Build Request
-    NSMutableURLRequest *request;
-    if (self.bodyData) {
-        request = [HNOperation newJSONRequestWithURL:[NSURL URLWithString:self.urlPath] bodyData:self.bodyData];
-    }
-    else {
-        request = [HNOperation newGetRequestForURL:[NSURL URLWithString:self.urlPath]];
-    }
-    
     // Execute
     NSError *error;
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] init];
-    self.responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    self.responseData = [NSURLConnection sendSynchronousRequest:self.urlRequest returningResponse:&response error:&error];
 }
 
 
 #pragma mark - URL Request Building
-+(NSMutableURLRequest *)newGetRequestForURL:(NSURL *)url {
++(NSMutableURLRequest *)newGetRequestForURL:(NSURL *)url cookie:(NSHTTPCookie *)cookie {
     NSMutableURLRequest *Request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
     [Request setHTTPMethod:@"GET"];
+    
+    if (cookie) {
+        [Request setAllHTTPHeaderFields:[NSHTTPCookie requestHeaderFieldsWithCookies:@[cookie]]];
+    }
     
     return Request;
 }
 
-+(NSMutableURLRequest *)newJSONRequestWithURL:(NSURL *)url bodyData:(NSData *)bodyData{
++(NSMutableURLRequest *)newJSONRequestWithURL:(NSURL *)url bodyData:(NSData *)bodyData cookie:(NSHTTPCookie *)cookie {
     NSMutableURLRequest *Request = [[NSMutableURLRequest alloc] initWithURL:url];
     [Request setHTTPMethod:@"POST"];
     [Request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [Request setHTTPBody:bodyData];
     [Request setHTTPShouldHandleCookies:YES];
     [Request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+    
+    if (cookie) {
+        [Request setAllHTTPHeaderFields:[NSHTTPCookie requestHeaderFieldsWithCookies:@[cookie]]];
+    }
     
     return Request;
 }

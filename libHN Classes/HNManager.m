@@ -74,7 +74,7 @@ static HNManager * _sharedManager = nil;
         NSHTTPCookie *cookie = cookieArray[0];
         if ([cookie.name isEqualToString:@"user"]) {
             // Validate Session
-            [self.Service validateAndSetSessionWithCompletion:^(BOOL success) {
+            [self.Service validateAndSetSessionWithCookie:cookie completion:^(BOOL success) {
                 if (success) {
                     self.SessionCookie = cookie;
                 }

@@ -40,7 +40,7 @@ typedef void (^BooleanSuccessBlock) (BOOL success);
 - (void)loadPostsWithFNID:(NSString *)fnid completion:(GetPostsCompletion)completion;
 - (void)loadCommentsFromPost:(HNPost *)post completion:(GetCommentsCompletion)completion;
 - (void)loginWithUsername:(NSString *)user pass:(NSString *)pass completion:(LoginCompletion)completion;
-- (void)validateAndSetSessionWithCompletion:(BooleanSuccessBlock)completion;
+- (void)validateAndSetSessionWithCookie:(NSHTTPCookie *)cookie completion:(BooleanSuccessBlock)completion;
 
 @end
 
@@ -49,15 +49,15 @@ typedef void (^BooleanSuccessBlock) (BOOL success);
 @interface HNOperation : NSOperation
 
 // Properties
-@property (nonatomic, retain) NSString *urlPath;
+@property (nonatomic, retain) NSURLRequest *urlRequest;
 @property (nonatomic, retain) NSData *bodyData;
 @property (nonatomic, retain) NSData *responseData;
 
 // Set Path
--(void)setUrlPath:(NSString *)path data:(NSData *)data completion:(void (^)(void))block;
+-(void)setUrlPath:(NSString *)path data:(NSData *)data cookie:(NSHTTPCookie *)cookie completion:(void (^)(void))block;
 
 // Web Request Builders
-+(NSMutableURLRequest *)newGetRequestForURL:(NSURL *)url;
-+(NSMutableURLRequest *)newJSONRequestWithURL:(NSURL *)url bodyData:(NSData *)bodyData;
++(NSMutableURLRequest *)newGetRequestForURL:(NSURL *)url cookie:(NSHTTPCookie *)cookie;
++(NSMutableURLRequest *)newJSONRequestWithURL:(NSURL *)url bodyData:(NSData *)bodyData cookie:(NSHTTPCookie *)cookie;
 
 @end
