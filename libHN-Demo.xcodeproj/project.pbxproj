@@ -22,6 +22,12 @@
 		C0FB75F71801E2E300BDA142 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FB75D61801E2E300BDA142 /* UIKit.framework */; };
 		C0FB75FF1801E2E300BDA142 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C0FB75FD1801E2E300BDA142 /* InfoPlist.strings */; };
 		C0FB76011801E2E300BDA142 /* libHN_DemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB76001801E2E300BDA142 /* libHN_DemoTests.m */; };
+		C0FB760D1801E37C00BDA142 /* HNManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB760C1801E37C00BDA142 /* HNManager.m */; };
+		C0FB76141801E58C00BDA142 /* HNWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB76131801E58C00BDA142 /* HNWebService.m */; };
+		C0FB76181801EBFB00BDA142 /* HNPost.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB76171801EBFB00BDA142 /* HNPost.m */; };
+		C0FB761B1801EC4400BDA142 /* HNComment.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB761A1801EC4400BDA142 /* HNComment.m */; };
+		C0FB761E1801F2D300BDA142 /* HNUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB761D1801F2D300BDA142 /* HNUser.m */; };
+		C0FB76211801F52300BDA142 /* HNCommentLink.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB76201801F52300BDA142 /* HNCommentLink.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +61,19 @@
 		C0FB75FC1801E2E300BDA142 /* libHN-DemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "libHN-DemoTests-Info.plist"; sourceTree = "<group>"; };
 		C0FB75FE1801E2E300BDA142 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C0FB76001801E2E300BDA142 /* libHN_DemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = libHN_DemoTests.m; sourceTree = "<group>"; };
+		C0FB760B1801E37C00BDA142 /* HNManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HNManager.h; path = "libHN Classes/HNManager.h"; sourceTree = SOURCE_ROOT; };
+		C0FB760C1801E37C00BDA142 /* HNManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HNManager.m; path = "libHN Classes/HNManager.m"; sourceTree = SOURCE_ROOT; };
+		C0FB76121801E58C00BDA142 /* HNWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HNWebService.h; path = "libHN Classes/HNWebService.h"; sourceTree = SOURCE_ROOT; };
+		C0FB76131801E58C00BDA142 /* HNWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HNWebService.m; path = "libHN Classes/HNWebService.m"; sourceTree = SOURCE_ROOT; };
+		C0FB76161801EBFB00BDA142 /* HNPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HNPost.h; path = "libHN Classes/HNPost.h"; sourceTree = SOURCE_ROOT; };
+		C0FB76171801EBFB00BDA142 /* HNPost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HNPost.m; path = "libHN Classes/HNPost.m"; sourceTree = SOURCE_ROOT; };
+		C0FB76191801EC4400BDA142 /* HNComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HNComment.h; path = "libHN Classes/HNComment.h"; sourceTree = SOURCE_ROOT; };
+		C0FB761A1801EC4400BDA142 /* HNComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HNComment.m; path = "libHN Classes/HNComment.m"; sourceTree = SOURCE_ROOT; };
+		C0FB761C1801F2D300BDA142 /* HNUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HNUser.h; path = "libHN Classes/HNUser.h"; sourceTree = SOURCE_ROOT; };
+		C0FB761D1801F2D300BDA142 /* HNUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HNUser.m; path = "libHN Classes/HNUser.m"; sourceTree = SOURCE_ROOT; };
+		C0FB761F1801F52300BDA142 /* HNCommentLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HNCommentLink.h; path = "libHN Classes/HNCommentLink.h"; sourceTree = SOURCE_ROOT; };
+		C0FB76201801F52300BDA142 /* HNCommentLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HNCommentLink.m; path = "libHN Classes/HNCommentLink.m"; sourceTree = SOURCE_ROOT; };
+		C0FB76221801F5FB00BDA142 /* libHN.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = libHN.h; path = "libHN Classes/libHN.h"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +133,7 @@
 		C0FB75D81801E2E300BDA142 /* libHN-Demo */ = {
 			isa = PBXGroup;
 			children = (
+				C0FB760A1801E2F500BDA142 /* libHN */,
 				C0FB75E11801E2E300BDA142 /* HNAppDelegate.h */,
 				C0FB75E21801E2E300BDA142 /* HNAppDelegate.m */,
 				C0FB75E41801E2E300BDA142 /* Main_iPhone.storyboard */,
@@ -153,6 +173,50 @@
 				C0FB75FD1801E2E300BDA142 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C0FB760A1801E2F500BDA142 /* libHN */ = {
+			isa = PBXGroup;
+			children = (
+				C0FB76231801F62E00BDA142 /* HN SharedManager */,
+				C0FB76151801EB4100BDA142 /* HN Objects */,
+				C0FB760E1801E54B00BDA142 /* WebService */,
+				C0FB76221801F5FB00BDA142 /* libHN.h */,
+			);
+			name = libHN;
+			sourceTree = "<group>";
+		};
+		C0FB760E1801E54B00BDA142 /* WebService */ = {
+			isa = PBXGroup;
+			children = (
+				C0FB76121801E58C00BDA142 /* HNWebService.h */,
+				C0FB76131801E58C00BDA142 /* HNWebService.m */,
+			);
+			name = WebService;
+			sourceTree = "<group>";
+		};
+		C0FB76151801EB4100BDA142 /* HN Objects */ = {
+			isa = PBXGroup;
+			children = (
+				C0FB76161801EBFB00BDA142 /* HNPost.h */,
+				C0FB76171801EBFB00BDA142 /* HNPost.m */,
+				C0FB76191801EC4400BDA142 /* HNComment.h */,
+				C0FB761A1801EC4400BDA142 /* HNComment.m */,
+				C0FB761C1801F2D300BDA142 /* HNUser.h */,
+				C0FB761D1801F2D300BDA142 /* HNUser.m */,
+				C0FB761F1801F52300BDA142 /* HNCommentLink.h */,
+				C0FB76201801F52300BDA142 /* HNCommentLink.m */,
+			);
+			name = "HN Objects";
+			sourceTree = "<group>";
+		};
+		C0FB76231801F62E00BDA142 /* HN SharedManager */ = {
+			isa = PBXGroup;
+			children = (
+				C0FB760B1801E37C00BDA142 /* HNManager.h */,
+				C0FB760C1801E37C00BDA142 /* HNManager.m */,
+			);
+			name = "HN SharedManager";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,9 +318,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0FB76211801F52300BDA142 /* HNCommentLink.m in Sources */,
+				C0FB761E1801F2D300BDA142 /* HNUser.m in Sources */,
 				C0FB75EC1801E2E300BDA142 /* HNViewController.m in Sources */,
+				C0FB761B1801EC4400BDA142 /* HNComment.m in Sources */,
+				C0FB76181801EBFB00BDA142 /* HNPost.m in Sources */,
+				C0FB76141801E58C00BDA142 /* HNWebService.m in Sources */,
 				C0FB75E31801E2E300BDA142 /* HNAppDelegate.m in Sources */,
 				C0FB75DF1801E2E300BDA142 /* main.m in Sources */,
+				C0FB760D1801E37C00BDA142 /* HNManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
