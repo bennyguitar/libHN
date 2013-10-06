@@ -142,7 +142,26 @@ typedef NS_ENUM(NSInteger, CommentType) {
 
 ## Logging In/Out
 
-Coming soon!
+User related actions are a vital aspect of being part of the HackerNews community. I mean, if you can't be active in discussion or submit interesting links, then you might as well be a bystander. Unfortunately most HN Reader iOS/Mac apps neglect this part of the community and focus more on the interesting links themselves. There's a good reason for this - it's not trivial to implement; you have to think about Cookies and going through two web calls just to get a submission or comment to go through. It's annoying, and I've decided to make developers' lives easier by doing the annoying work myself and abstracting it away so you don't have to think about it again. It all starts with logging in.
+
+The way HN operates in the browser is off of an HTTP Cookie. This Cookie is generated at login, and kept around for a pretty long time. Logging in on a different computer invalidates all Cookies for a user. Therefore, it's necessary to check if there's a cookie, and validate it before attempting to login. This can be accomplished with the <code>setCookie</code> method of the HNManager. It will find the Cookie on the device and attempt to validate it. If it does check out, the <code>SessionCookie</code> property of the HNManager will not be nil. If this property is nil, you're going to need to login and generate a new Cookie for your device (which will then subsequently set the SessionCookie property on success, as well as the SessionUser with the returned HNUser object). This can be done with the following method:
+
+```objc
+[[HNManager sharedManager] loginWithUsername:@"user" password:@"pass" completion:(HNUser *user){
+  if (user) {
+    // Login was successful!
+  }
+  else {
+    // Login failed, handle the error
+  }
+}];
+```
+
+Logging out just deletes the SessionCookie property and the SessionUser property from memory, so you can't use them any more to make user-specific requests like submitting and commenting. Logging out is dead simple to implement.
+
+```objc
+[[HNManager sharedManager] logout];
+```
 
 ---------------------
 
