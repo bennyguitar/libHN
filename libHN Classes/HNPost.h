@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, PostType) {
 @interface HNPost : NSObject
 
 #pragma mark - Properties
-@property (nonatomic, assign) PostType *Type;
+@property (nonatomic, assign) PostType Type;
 @property (nonatomic,retain) NSString *Username;
 @property (nonatomic, retain) NSURL *Url;
 @property (nonatomic, retain) NSString *UrlDomain;

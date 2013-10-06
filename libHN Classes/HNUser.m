@@ -7,6 +7,7 @@
 //
 
 #import "HNUser.h"
+#import "HNUtilities.h"
 
 @implementation HNUser
 
@@ -39,7 +40,7 @@
     // Set properties
     newUser.Age = [age intValue];
     newUser.Karma = [karma intValue];
-    newUser.AboutInfo = about;
+    newUser.AboutInfo = [HNUtilities stringByReplacingHTMLEntitiesInText:about];
     
     return newUser;
 }

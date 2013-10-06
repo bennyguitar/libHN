@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HNPost.h"
 
 typedef NS_ENUM(NSInteger, CommentType) {
     CommentTypeDefault,
@@ -17,7 +18,7 @@ typedef NS_ENUM(NSInteger, CommentType) {
 @interface HNComment : NSObject
 
 #pragma mark - Properties
-@property (nonatomic, assign) CommentType *Type;
+@property (nonatomic, assign) CommentType Type;
 @property (nonatomic, retain) NSString *Text;
 @property (nonatomic, retain) NSString *Username;
 @property (nonatomic, retain) NSString *CommentId;
@@ -28,7 +29,7 @@ typedef NS_ENUM(NSInteger, CommentType) {
 @property (nonatomic, retain) NSArray *Links;
 
 #pragma mark - Methods
-+ (NSArray *)parsedCommentsFromHTML:(NSString *)html;
++ (NSArray *)parsedCommentsFromHTML:(NSString *)html forPost:(HNPost *)post;
 
 
 @end

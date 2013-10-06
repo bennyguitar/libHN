@@ -18,4 +18,6 @@
 
 #import "HNWebService.h"
 
+#import "HNUtilities.h"
+
 #endif

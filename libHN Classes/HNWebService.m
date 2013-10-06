@@ -53,7 +53,7 @@
     // Load the Posts
     HNOperation *operation = [[HNOperation alloc] init];
     __block HNOperation *blockOperation = operation;
-    [operation setUrlPath:urlPath data:Nil completion:^{
+    [operation setUrlPath:urlPath data:nil completion:^{
         if (blockOperation.responseData) {
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
             NSString *fnid = @"";
@@ -76,6 +76,7 @@
             });
         }
     }];
+    [self.HNQueue addOperation:operation];
 }
 
 
@@ -87,7 +88,7 @@
     // Load the Posts
     HNOperation *operation = [[HNOperation alloc] init];
     __block HNOperation *blockOperation = operation;
-    [operation setUrlPath:urlPath data:Nil completion:^{
+    [operation setUrlPath:urlPath data:nil completion:^{
         if (blockOperation.responseData) {
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
             NSString *fnid = @"";
@@ -110,6 +111,7 @@
             });
         }
     }];
+    [self.HNQueue addOperation:operation];
 }
 
 
@@ -118,13 +120,13 @@
     // Create URL Path
     NSString *urlPath = [NSString stringWithFormat:@"%@item?id=%@", kBaseURLAddress, post.PostId];
     
-    // Load the Posts
+    // Load the Comments
     HNOperation *operation = [[HNOperation alloc] init];
     __block HNOperation *blockOperation = operation;
-    [operation setUrlPath:urlPath data:Nil completion:^{
+    [operation setUrlPath:urlPath data:nil completion:^{
         if (blockOperation.responseData) {
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
-            NSArray *comments = [HNComment parsedCommentsFromHTML:html];
+            NSArray *comments = [HNComment parsedCommentsFromHTML:html forPost:post];
             if (comments) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     completion(comments);
@@ -142,7 +144,142 @@
             });
         }
     }];
+    [self.HNQueue addOperation:operation];
+}
 
+
+#pragma mark - Login
+- (void)loginWithUsername:(NSString *)user pass:(NSString *)pass completion:(LoginCompletion)completion {
+    // Login is a three-part process
+    // 1. go to https://news.ycombinator.com/newslogin?whence=%6e%65%77%73 and grab the fnid for the login submit button
+    // 2. pass this info in to that url via a POST request
+    // 3. build a User object by going to that specific URL as well
+    
+    
+    // First things first, let's grab that FNID
+    NSString *urlPath = [NSString stringWithFormat:@"%@newslogin?whence=news", kBaseURLAddress];
+    
+    // Build the operation
+    HNOperation *operation = [[HNOperation alloc] init];
+    __block HNOperation *blockOperation = operation;
+    [operation setUrlPath:urlPath data:nil completion:^{
+        if (blockOperation.responseData) {
+            NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+            if (html) {
+                NSString *fnid = @"", *trash = @"";
+                NSScanner *fnidScan = [NSScanner scannerWithString:html];
+                [fnidScan scanUpToString:@"name=\"fnid\" value=\"" intoString:&trash];
+                [fnidScan scanString:@"name=\"fnid\" value=\"" intoString:&trash];
+                [fnidScan scanUpToString:@"\"" intoString:&fnid];
+                
+                if (fnid.length > 0) {
+                    // We grabbed the fnid, now attempt part 2
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self part2LoginWithFNID:fnid user:user pass:pass completion:completion];
+                    });
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        completion(nil);
+                    });
+                }
+            }
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(nil);
+            });
+        }
+    }];
+    [self.HNQueue addOperation:operation];
+}
+
+- (void)part2LoginWithFNID:(NSString *)fnid user:(NSString *)user pass:(NSString *)pass completion:(LoginCompletion)completion {
+    // Now let's attempt to login
+    NSString *urlPath = [NSString stringWithFormat:@"%@y", kBaseURLAddress];
+    
+    // Build the body data
+    NSString *bodyString = [NSString stringWithFormat:@"fnid=%@&u=%@&p=%@",fnid,user,pass];
+    NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    // Start the Operation
+    HNOperation *operation = [[HNOperation alloc] init];
+    __block HNOperation *blockOperation = operation;
+    [operation setUrlPath:urlPath data:bodyData completion:^{
+        if (blockOperation.responseData) {
+            // Now attempt part 3
+            NSString *responseString = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+            if (responseString) {
+                if ([responseString rangeOfString:@">Bad login.<"].location == NSNotFound) {
+                    // Login Succeded, let's create a user
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self part3loginWithUsername:user completion:completion];
+                    });
+                }
+                else {
+                    // Login failed
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        completion(nil);
+                    });
+                }
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(nil);
+                });
+            }
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(nil);
+            });
+        }
+    }];
+    [self.HNQueue addOperation:operation];
+}
+
+- (void)part3loginWithUsername:(NSString *)user completion:(LoginCompletion)completion {
+    // And finally we attempt to create the User
+    // Build URL String
+    NSString *urlPath = [NSString stringWithFormat:@"%@user?id=%@", kBaseURLAddress, user];
+    
+    // Start the Operation
+    HNOperation *operation = [[HNOperation alloc] init];
+    __block HNOperation *blockOperation = operation;
+    [operation setUrlPath:urlPath data:nil completion:^{
+        if (blockOperation.responseData) {
+            // Now attempt part 3
+            NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+            if (html) {
+                HNUser *user = [HNUser userFromHTML:html];
+                if (user) {
+                    // Set the Session User
+                    [[HNManager sharedManager] setSessionUser:user];
+                    
+                    // Finally return the user we've been looking for
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        completion(user);
+                    });
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        completion(nil);
+                    });
+                }
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(nil);
+                });
+            }
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(nil);
+            });
+        }
+    }];
+    [self.HNQueue addOperation:operation];
 }
 
 @end

@@ -10,6 +10,7 @@
 
 #import "HNPost.h"
 #import "HNComment.h"
+#import "HNUser.h"
 
 #pragma mark - Enums
 typedef NS_ENUM(NSInteger, PostFilterType) {
@@ -24,6 +25,7 @@ typedef NS_ENUM(NSInteger, PostFilterType) {
 #pragma mark - Blocks
 typedef void (^GetPostsCompletion) (NSArray *posts);
 typedef void (^GetCommentsCompletion) (NSArray *comments);
+typedef void (^LoginCompletion) (HNUser *user);
 typedef void (^BooleanSuccessBlock) (BOOL success);
 
 
@@ -37,6 +39,7 @@ typedef void (^BooleanSuccessBlock) (BOOL success);
 - (void)loadPostsWithFilter:(PostFilterType)filter completion:(GetPostsCompletion)completion;
 - (void)loadPostsWithFNID:(NSString *)fnid completion:(GetPostsCompletion)completion;
 - (void)loadCommentsFromPost:(HNPost *)post completion:(GetCommentsCompletion)completion;
+- (void)loginWithUsername:(NSString *)user pass:(NSString *)pass completion:(LoginCompletion)completion;
 
 @end
 

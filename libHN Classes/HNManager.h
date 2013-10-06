@@ -15,6 +15,8 @@
 #pragma mark - Properties
 @property (nonatomic, retain) HNWebService *Service;
 @property (nonatomic, retain) NSString *postFNID;
+@property (nonatomic, retain) NSHTTPCookie *SessionCookie;
+@property (nonatomic, retain) HNUser *SessionUser;
 
 #pragma mark - Singleton Manager
 + (HNManager *)sharedManager;

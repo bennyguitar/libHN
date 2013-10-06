@@ -28,6 +28,7 @@
 		C0FB761B1801EC4400BDA142 /* HNComment.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB761A1801EC4400BDA142 /* HNComment.m */; };
 		C0FB761E1801F2D300BDA142 /* HNUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB761D1801F2D300BDA142 /* HNUser.m */; };
 		C0FB76211801F52300BDA142 /* HNCommentLink.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB76201801F52300BDA142 /* HNCommentLink.m */; };
+		C0FB76271802188100BDA142 /* HNUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB76261802188100BDA142 /* HNUtilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,8 @@
 		C0FB761F1801F52300BDA142 /* HNCommentLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HNCommentLink.h; path = "libHN Classes/HNCommentLink.h"; sourceTree = SOURCE_ROOT; };
 		C0FB76201801F52300BDA142 /* HNCommentLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HNCommentLink.m; path = "libHN Classes/HNCommentLink.m"; sourceTree = SOURCE_ROOT; };
 		C0FB76221801F5FB00BDA142 /* libHN.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = libHN.h; path = "libHN Classes/libHN.h"; sourceTree = SOURCE_ROOT; };
+		C0FB76251802188100BDA142 /* HNUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HNUtilities.h; path = "libHN Classes/HNUtilities.h"; sourceTree = SOURCE_ROOT; };
+		C0FB76261802188100BDA142 /* HNUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HNUtilities.m; path = "libHN Classes/HNUtilities.m"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				C0FB76231801F62E00BDA142 /* HN SharedManager */,
+				C0FB76241802186D00BDA142 /* HN Utilities */,
 				C0FB76151801EB4100BDA142 /* HN Objects */,
 				C0FB760E1801E54B00BDA142 /* WebService */,
 				C0FB76221801F5FB00BDA142 /* libHN.h */,
@@ -217,6 +221,15 @@
 				C0FB760C1801E37C00BDA142 /* HNManager.m */,
 			);
 			name = "HN SharedManager";
+			sourceTree = "<group>";
+		};
+		C0FB76241802186D00BDA142 /* HN Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				C0FB76251802188100BDA142 /* HNUtilities.h */,
+				C0FB76261802188100BDA142 /* HNUtilities.m */,
+			);
+			name = "HN Utilities";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -322,6 +335,7 @@
 				C0FB761E1801F2D300BDA142 /* HNUser.m in Sources */,
 				C0FB75EC1801E2E300BDA142 /* HNViewController.m in Sources */,
 				C0FB761B1801EC4400BDA142 /* HNComment.m in Sources */,
+				C0FB76271802188100BDA142 /* HNUtilities.m in Sources */,
 				C0FB76181801EBFB00BDA142 /* HNPost.m in Sources */,
 				C0FB76141801E58C00BDA142 /* HNWebService.m in Sources */,
 				C0FB75E31801E2E300BDA142 /* HNAppDelegate.m in Sources */,
