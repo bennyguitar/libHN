@@ -61,11 +61,80 @@ Now that you've gotten the first set of posts, use this method to keep retrievin
 }];
 ```
 
+**HNpost.{h,m}**
+
+The actual HNPost object is fairly simple. It just contains the metadata about the post like Title, and the URL. There is a class method here that scans through the HTML passed in to return the array of posts that the two web methods above return. This is the low-level stuff that you should never have to mess with, but might be beneficial to pore over if you'd like to learn more or implement changes yourself.
+
+```objc
+// HNPost.h
+
+// Enums
+typedef NS_ENUM(NSInteger, PostType) {
+    PostTypeDefault,
+    PostTypeAskHN,
+    PostTypeJobs
+};
+
+// Properties
+@property (nonatomic, assign) PostType *Type;
+@property (nonatomic,retain) NSString *Username;
+@property (nonatomic, retain) NSURL *Url;
+@property (nonatomic, retain) NSString *UrlDomain;
+@property (nonatomic, retain) NSString *Title;
+@property (nonatomic, assign) int Points;
+@property (nonatomic, assign) int CommentCount;
+@property (nonatomic, retain) NSString *PostId;
+@property (nonatomic, retain) NSString *TimeCreatedString;
+
+// Methods
++ (NSArray *)parsedPostsFromHTML:(NSString *)html FNID:(NSString **)fnid;
+```
+
 ---------------------
 
 ## Fetching Comments
 
-Coming soon!
+There's only one method to load comments, and naturally, it follows from loading the Posts. After you load your Posts, you can pass one in to the following method to return an array of <code>HNComment</code> objects. Here's how you do this:
+
+```objc
+[[HNManager sharedManager] loadCommentsFromPost:(HNPost *)post completion:(NSArray *comments){
+  if (comments) {
+    // Comments retrieved.
+  }
+  else {
+    // No comments retrieved, handle the error
+  }
+}];
+```
+
+**HNComment.{h,m}**
+
+Similar to the HNPost object, HNComment features a handy class method that generates an NSArray of HNComments by parsing the HTML itself. Again, I'd look this over just to get a feel for how it works.
+
+```objc
+// HNComment.h
+
+// Enums
+typedef NS_ENUM(NSInteger, CommentType) {
+    CommentTypeDefault,
+    CommentTypeAskHN,
+    CommentTypeJobs
+};
+
+// Properties
+@property (nonatomic, assign) CommentType *Type;
+@property (nonatomic, retain) NSString *Text;
+@property (nonatomic, retain) NSString *Username;
+@property (nonatomic, retain) NSString *CommentId;
+@property (nonatomic, retain) NSString *ParentID;
+@property (nonatomic, retain) NSString *TimeCreatedString;
+@property (nonatomic, retain) NSString *ReplyURLString;
+@property (nonatomic, assign) int Level;
+@property (nonatomic, retain) NSArray *Links;
+
+// Methods
++ (NSArray *)parsedCommentsFromHTML:(NSString *)html;
+```
 
 ---------------------
 
