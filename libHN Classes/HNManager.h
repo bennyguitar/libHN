@@ -12,6 +12,9 @@
 
 @interface HNManager : NSObject
 
+#pragma mark - Blocks
+typedef void (^SuccessfulLoginBlock) (HNUser *user);
+
 #pragma mark - Properties
 @property (nonatomic, retain) HNWebService *Service;
 @property (nonatomic, retain) NSString *postFNID;
@@ -22,7 +25,7 @@
 + (HNManager *)sharedManager;
 
 #pragma mark - WebService Methods
-- (void)loginWithUsername:(NSString *)user password:(NSString *)pass completion:(BooleanSuccessBlock)completion;
+- (void)loginWithUsername:(NSString *)user password:(NSString *)pass completion:(SuccessfulLoginBlock)completion;
 - (void)logout;
 - (void)loadPostsWithFilter:(PostFilterType)filter completion:(GetPostsCompletion)completion;
 - (void)loadPostsWithFNID:(NSString *)fnid completion:(GetPostsCompletion)completion;

@@ -180,14 +180,14 @@
                 }
                 else {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        completion(nil);
+                        completion(nil,nil);
                     });
                 }
             }
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                completion(nil);
+                completion(nil,nil);
             });
         }
     }];
@@ -213,32 +213,32 @@
                 if ([responseString rangeOfString:@">Bad login.<"].location == NSNotFound) {
                     // Login Succeded, let's create a user
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self getUser:user completion:completion];
+                        [self getLoggedInUser:user completion:completion];
                     });
                 }
                 else {
                     // Login failed
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        completion(nil);
+                        completion(nil,nil);
                     });
                 }
             }
             else {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(nil);
+                    completion(nil,nil);
                 });
             }
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                completion(nil);
+                completion(nil,nil);
             });
         }
     }];
     [self.HNQueue addOperation:operation];
 }
 
-- (void)getUser:(NSString *)user completion:(LoginCompletion)completion {
+- (void)getLoggedInUser:(NSString *)user completion:(LoginCompletion)completion {
     // And finally we attempt to create the User
     // Build URL String
     NSString *urlPath = [NSString stringWithFormat:@"%@user?id=%@", kBaseURLAddress, user];
@@ -252,27 +252,28 @@
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
             if (html) {
                 HNUser *user = [HNUser userFromHTML:html];
+                NSHTTPCookie *Cookie = [HNManager getHNCookie];
                 if (user) {
                     // Finally return the user we've been looking for
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        completion(user);
+                        completion(user, Cookie);
                     });
                 }
                 else {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        completion(nil);
+                        completion(nil, nil);
                     });
                 }
             }
             else {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(nil);
+                    completion(nil, nil);
                 });
             }
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                completion(nil);
+                completion(nil, nil);
             });
         }
     }];
@@ -299,34 +300,23 @@
                     [scanner scanUpToString:@"<a href=\"threads?id=" intoString:&trash];
                     [scanner scanString:@"<a href=\"threads?id=" intoString:&trash];
                     [scanner scanUpToString:@"\">" intoString:&userString];
-                    [self getUser:userString completion:^(HNUser *user) {
-                        if (user) {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                completion(user);
-                            });
-                        }
-                        else {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                completion(nil);
-                            });
-                        }
-                    }];
+                    [self getLoggedInUser:userString completion:completion];
                 }
                 else {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        completion(nil);
+                        completion(nil, nil);
                     });
                 }
             }
             else {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(nil);
+                    completion(nil, nil);
                 });
             }
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                completion(nil);
+                completion(nil, nil);
             });
         }
     }];

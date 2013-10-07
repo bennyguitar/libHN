@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, PostFilterType) {
 #pragma mark - Blocks
 typedef void (^GetPostsCompletion) (NSArray *posts);
 typedef void (^GetCommentsCompletion) (NSArray *comments);
-typedef void (^LoginCompletion) (HNUser *user);
+typedef void (^LoginCompletion) (HNUser *user, NSHTTPCookie *cookie);
 typedef void (^BooleanSuccessBlock) (BOOL success);
 
 

@@ -39,10 +39,12 @@ static HNManager * _sharedManager = nil;
         self.Service = [[HNWebService alloc] init];
         
         // Set SessionCookie & SessionUser
-        [self validateAndSetCookieWithCompletion:^(HNUser *user) {
+        [self validateAndSetCookieWithCompletion:^(HNUser *user, NSHTTPCookie *cookie) {
             if (user) {
                 self.SessionUser = user;
-                self.SessionCookie = [HNManager getHNCookie];
+            }
+            if (cookie) {
+                self.SessionCookie = cookie;
             }
         }];
 	}
@@ -51,11 +53,26 @@ static HNManager * _sharedManager = nil;
 
 
 #pragma mark - WebService Methods
-- (void)loginWithUsername:(NSString *)user password:(NSString *)pass completion:(BooleanSuccessBlock)completion {
-    
+- (void)loginWithUsername:(NSString *)user password:(NSString *)pass completion:(SuccessfulLoginBlock)completion {
+    [self.Service loginWithUsername:user pass:pass completion:^(HNUser *user, NSHTTPCookie *cookie) {
+        if (user && cookie) {
+            // Set Session
+            self.SessionUser = user;
+            self.SessionCookie = cookie;
+            
+            // Pass user on through
+            completion(user);
+        }
+    }];
 }
 
 - (void)logout {
+    // Delete cookie from Storage
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:self.SessionCookie];
+    
+    // Delete objects in memory
+    self.SessionCookie = nil;
+    self.SessionUser = nil;
     
 }
 
