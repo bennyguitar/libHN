@@ -52,9 +52,9 @@ typedef void (^SubmitCommentSuccessBlock) (BOOL success);
 - (void)loginWithUsername:(NSString *)user pass:(NSString *)pass completion:(LoginCompletion)completion;
 - (void)validateAndSetSessionWithCookie:(NSHTTPCookie *)cookie completion:(LoginCompletion)completion;
 // Submitting
-- (void)submitPostWithTitle:(NSString *)title link:(NSString *)link text:(NSString *)text completion:(SubmitPostSuccessBlock)completion;
+- (void)submitPostWithTitle:(NSString *)title link:(NSString *)link text:(NSString *)text completion:(BooleanSuccessBlock)completion;
 // Commenting
-- (void)replyToHNObject:(id)hnObject withText:(NSString *)text completion:(SubmitCommentSuccessBlock)completion;
+- (void)replyToHNObject:(id)hnObject withText:(NSString *)text completion:(BooleanSuccessBlock)completion;
 // Voting
 - (void)voteOnHNObject:(id)hnObject direction:(VoteDirection)direction completion:(BooleanSuccessBlock)completion;
 // Get Submissions for User

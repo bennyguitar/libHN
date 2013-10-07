@@ -326,7 +326,7 @@
 
 
 #pragma mark - Submit Post
-- (void)submitPostWithTitle:(NSString *)title link:(NSString *)link text:(NSString *)text completion:(SubmitPostSuccessBlock)completion {
+- (void)submitPostWithTitle:(NSString *)title link:(NSString *)link text:(NSString *)text completion:(BooleanSuccessBlock)completion {
     // Submitting a post is a two=part process
     // 1. Get the fnid of the Submission page
     // 2. Submit the link/text using the fnid
@@ -366,7 +366,7 @@
                     
                     // Create next Request
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self part2SubmitPostWithData:bodyData completion:completion];
+                        [self part2SubmitPostOrCommentWithData:bodyData completion:completion];
                     });
                 }
                 else {
@@ -390,7 +390,77 @@
     [self.HNQueue addOperation:operation];
 }
 
-- (void)part2SubmitPostWithData:(NSData *)bodyData completion:(SubmitPostSuccessBlock)completion {
+#pragma mark - Reply to Post/Comment
+- (void)replyToHNObject:(id)hnObject withText:(NSString *)text completion:(BooleanSuccessBlock)completion {
+    // Submitting a comment is a two-part
+    // 1. Get the fnid of the Reply page
+    // 2. Submit the link/text using the fnid
+    
+    // if no Cookie, we can't submit
+    if (![[HNManager sharedManager] SessionCookie]) {
+        completion(NO);
+        return;
+    }
+    
+    // Get itemId
+    NSString *itemId;
+    if ([hnObject isKindOfClass:[HNPost class]]) {
+        itemId = [(HNPost *)hnObject PostId];
+    }
+    else {
+        itemId = [(HNComment *)hnObject CommentId];
+    }
+    
+    // Make the url path
+    NSString *urlPath = [NSString stringWithFormat:@"%@reply?id=%@", kBaseURLAddress, itemId];
+    
+    // Start the Operation
+    HNOperation *operation = [[HNOperation alloc] init];
+    __block HNOperation *blockOperation = operation;
+    [operation setUrlPath:urlPath data:nil cookie:[[HNManager sharedManager] SessionCookie] completion:^{
+        if (blockOperation.responseData) {
+            NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+            if ([html rangeOfString:@"textarea"].location != NSNotFound) {
+                NSString *trash = @"", *fnid = @"";
+                NSScanner *scanner = [NSScanner scannerWithString:html];
+                [scanner scanUpToString:@"name=\"fnid\" value=\"" intoString:&trash];
+                [scanner scanString:@"name=\"fnid\" value=\"" intoString:&trash];
+                [scanner scanUpToString:@"\"" intoString:&fnid];
+                
+                if (fnid.length > 0) {
+                    // Create BodyData
+                    NSString *bodyString = [NSString stringWithFormat:@"fnid=%@&text=%@", fnid, text];
+                    NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+                    
+                    // Create next Request
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self part2SubmitPostOrCommentWithData:bodyData completion:completion];
+                    });
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        completion(NO);
+                    });
+                }
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(NO);
+                });
+            }
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(NO);
+            });
+        }
+    }];
+    [self.HNQueue addOperation:operation];
+}
+
+
+#pragma mark - Part 2 of submitting a Comment/Post
+- (void)part2SubmitPostOrCommentWithData:(NSData *)bodyData completion:(BooleanSuccessBlock)completion {
     // Make the url path
     NSString *urlPath = [NSString stringWithFormat:@"%@r", kBaseURLAddress];
     
@@ -421,11 +491,6 @@
     [self.HNQueue addOperation:operation];
 }
 
-
-#pragma mark - Reply to Post/Comment
-- (void)replyToHNObject:(id)hnObject withText:(NSString *)text completion:(SubmitCommentSuccessBlock)completion {
-    
-}
 
 
 #pragma mark - Vote on Post/Comment

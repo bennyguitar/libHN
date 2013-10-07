@@ -88,7 +88,7 @@ static HNManager * _sharedManager = nil;
     [self.Service loadCommentsFromPost:post completion:completion];
 }
 
-- (void)submitPostWithTitle:(NSString *)title link:(NSString *)link text:(NSString *)text completion:(SubmitPostSuccessBlock)completion {
+- (void)submitPostWithTitle:(NSString *)title link:(NSString *)link text:(NSString *)text completion:(BooleanSuccessBlock)completion {
     if ((!link && !text) || !title) {
         // No link and text, or no title - can't submit
         completion(NO);
@@ -99,10 +99,10 @@ static HNManager * _sharedManager = nil;
     [self.Service submitPostWithTitle:title link:link text:text completion:completion];
 }
 
-- (void)replyToPostOrComment:(id)hnObject withText:(NSString *)text completion:(SubmitCommentSuccessBlock)completion {
+- (void)replyToPostOrComment:(id)hnObject withText:(NSString *)text completion:(BooleanSuccessBlock)completion {
     if (!hnObject || !text) {
         // You need a Post/Comment and text to make a reply!
-        completion(nil);
+        completion(NO);
         return;
     }
     

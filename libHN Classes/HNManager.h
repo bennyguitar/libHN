@@ -30,8 +30,8 @@ typedef void (^SuccessfulLoginBlock) (HNUser *user);
 - (void)loadPostsWithFilter:(PostFilterType)filter completion:(GetPostsCompletion)completion;
 - (void)loadPostsWithFNID:(NSString *)fnid completion:(GetPostsCompletion)completion;
 - (void)loadCommentsFromPost:(HNPost *)post completion:(GetCommentsCompletion)completion;
-- (void)submitPostWithTitle:(NSString *)title link:(NSString *)link text:(NSString *)text completion:(SubmitPostSuccessBlock)completion;
-- (void)replyToPostOrComment:(id)hnObject withText:(NSString *)text completion:(SubmitCommentSuccessBlock)completion;
+- (void)submitPostWithTitle:(NSString *)title link:(NSString *)link text:(NSString *)text completion:(BooleanSuccessBlock)completion;
+- (void)replyToPostOrComment:(id)hnObject withText:(NSString *)text completion:(BooleanSuccessBlock)completion;
 - (void)voteOnPostOrComment:(id)hnObject direction:(VoteDirection)direction completion:(BooleanSuccessBlock)completion;
 - (void)fetchSubmissionsForUser:(NSString *)user completion:(GetPostsCompletion)completion;
 
