@@ -88,6 +88,39 @@ static HNManager * _sharedManager = nil;
     [self.Service loadCommentsFromPost:post completion:completion];
 }
 
+- (void)submitPostWithTitle:(NSString *)title link:(NSString *)link text:(NSString *)text completion:(SubmitPostSuccessBlock)completion {
+    if ((!link && !text) || !title) {
+        // No link and text, or no title - can't submit
+        completion(nil);
+        return;
+    }
+    
+    // Make the Webservice Call
+    [self.Service submitPostWithTitle:title link:link text:text completion:completion];
+}
+
+- (void)replyToPostOrComment:(id)hnObject withText:(NSString *)text completion:(SubmitCommentSuccessBlock)completion {
+    if (!hnObject || !text) {
+        // You need a Post/Comment and text to make a reply!
+        completion(nil);
+        return;
+    }
+    
+    // Make the Webservice call
+    [self.Service replyToHNObject:hnObject withText:text completion:completion];
+}
+
+- (void)voteOnPostOrComment:(id)hnObject direction:(VoteDirection)direction completion:(BooleanSuccessBlock)completion {
+    if (!hnObject || !direction) {
+        // Must be a Post/Comment and direction to vote!
+        completion(NO);
+        return;
+    }
+    
+    // Make the Webservice Call
+    [self.Service voteOnHNObject:hnObject direction:direction completion:completion];
+}
+
 
 #pragma mark - Set Cookie & User
 - (void)validateAndSetCookieWithCompletion:(LoginCompletion)completion {

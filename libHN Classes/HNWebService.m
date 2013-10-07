@@ -281,6 +281,7 @@
 }
 
 
+#pragma mark - Validate Session Cookie
 - (void)validateAndSetSessionWithCookie:(NSHTTPCookie *)cookie completion:(LoginCompletion)completion {
     // And finally we attempt to create the User
     // Build URL String
@@ -322,6 +323,25 @@
     }];
     [self.HNQueue addOperation:operation];
 }
+
+
+#pragma mark - Submit Post
+- (void)submitPostWithTitle:(NSString *)title link:(NSString *)link text:(NSString *)text completion:(SubmitPostSuccessBlock)completion {
+    
+}
+
+
+#pragma mark - Reply to Post/Comment
+- (void)replyToHNObject:(id)hnObject withText:(NSString *)text completion:(SubmitCommentSuccessBlock)completion {
+    
+}
+
+
+#pragma mark - Vote on Post/Comment
+- (void)voteOnHNObject:(id)hnObject direction:(VoteDirection)direction completion:(BooleanSuccessBlock)completion {
+    
+}
+
 
 @end
 

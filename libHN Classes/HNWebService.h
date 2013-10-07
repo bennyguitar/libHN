@@ -21,12 +21,19 @@ typedef NS_ENUM(NSInteger, PostFilterType) {
     PostFilterTypeBest
 };
 
+typedef NS_ENUM(NSInteger, VoteDirection) {
+    VoteDirectionUp,
+    VoteDirectionDown
+};
+
 
 #pragma mark - Blocks
 typedef void (^GetPostsCompletion) (NSArray *posts);
 typedef void (^GetCommentsCompletion) (NSArray *comments);
 typedef void (^LoginCompletion) (HNUser *user, NSHTTPCookie *cookie);
 typedef void (^BooleanSuccessBlock) (BOOL success);
+typedef void (^SubmitPostSuccessBlock) (HNPost *newPost);
+typedef void (^SubmitCommentSuccessBlock) (HNComment *comment);
 
 
 #pragma mark - HNWebService
@@ -36,11 +43,20 @@ typedef void (^BooleanSuccessBlock) (BOOL success);
 @property (nonatomic, retain) NSOperationQueue *HNQueue;
 
 // Methods
+// Get Posts
 - (void)loadPostsWithFilter:(PostFilterType)filter completion:(GetPostsCompletion)completion;
 - (void)loadPostsWithFNID:(NSString *)fnid completion:(GetPostsCompletion)completion;
+// Get Comments
 - (void)loadCommentsFromPost:(HNPost *)post completion:(GetCommentsCompletion)completion;
+// Login/Out
 - (void)loginWithUsername:(NSString *)user pass:(NSString *)pass completion:(LoginCompletion)completion;
 - (void)validateAndSetSessionWithCookie:(NSHTTPCookie *)cookie completion:(LoginCompletion)completion;
+// Submitting
+- (void)submitPostWithTitle:(NSString *)title link:(NSString *)link text:(NSString *)text completion:(SubmitPostSuccessBlock)completion;
+// Commenting
+- (void)replyToHNObject:(id)hnObject withText:(NSString *)text completion:(SubmitCommentSuccessBlock)completion;
+// Voting
+- (void)voteOnHNObject:(id)hnObject direction:(VoteDirection)direction completion:(BooleanSuccessBlock)completion;
 
 @end
 
