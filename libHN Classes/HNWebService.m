@@ -495,7 +495,106 @@
 
 #pragma mark - Vote on Post/Comment
 - (void)voteOnHNObject:(id)hnObject direction:(VoteDirection)direction completion:(BooleanSuccessBlock)completion {
+    // Voting is a two part process
+    // 1. Grab the voting string associated with the direction (vote?for=6510488&amp;dir=up&amp;by=bennyg&amp;auth=69984d18a11d7f663259e6bd203791acd284978e)
+    // 2. Call that HTML and check for errors
     
+    // if no Cookie, we can't vote
+    if (![[HNManager sharedManager] SessionCookie]) {
+        completion(NO);
+        return;
+    }
+    
+    // Get itemId
+    NSString *itemId;
+    if ([hnObject isKindOfClass:[HNPost class]]) {
+        if (direction == VoteDirectionDown) {
+            // You can't downvote a Post
+            completion(NO);
+            return;
+        }
+        itemId = [(HNPost *)hnObject PostId];
+    }
+    else {
+        itemId = [(HNComment *)hnObject CommentId];
+    }
+    
+    // Make the url path
+    NSString *urlPath = [NSString stringWithFormat:@"%@reply?id=%@", kBaseURLAddress, itemId];
+    
+    // Start the Operation
+    HNOperation *operation = [[HNOperation alloc] init];
+    __block HNOperation *blockOperation = operation;
+    [operation setUrlPath:urlPath data:nil cookie:[[HNManager sharedManager] SessionCookie] completion:^{
+        if (blockOperation.responseData) {
+            NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+            if ([html rangeOfString:@"grayarrow.gif"].location != NSNotFound) {
+                NSString *trash = @"", *voteURL = @"";
+                NSScanner *scanner = [NSScanner scannerWithString:html];
+                [scanner scanUpToString:[NSString stringWithFormat:@"<a id=%@_", (VoteDirectionUp ? @"up" : @"down")] intoString:&trash];
+                [scanner scanUpToString:@"href=\"" intoString:&trash];
+                [scanner scanString:@"href=\"" intoString:&trash];
+                [scanner scanUpToString:@"&amp;whence" intoString:&voteURL];
+                
+                if (voteURL.length > 0) {
+                    // Create BodyData
+                    NSString *urlString = [voteURL stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
+                    
+                    // Create next Request
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self part2VoteWithUrlPath:urlString completion:completion];
+                    });
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        completion(NO);
+                    });
+                }
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(NO);
+                });
+            }
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(NO);
+            });
+        }
+    }];
+    [self.HNQueue addOperation:operation];
+}
+
+- (void)part2VoteWithUrlPath:(NSString *)path completion:(BooleanSuccessBlock)completion {
+    // Make the url path
+    NSString *urlPath = [NSString stringWithFormat:@"%@%@", kBaseURLAddress, path];
+    
+    // Start the Operation
+    HNOperation *operation = [[HNOperation alloc] init];
+    __block HNOperation *blockOperation = operation;
+    [operation setUrlPath:urlPath data:nil cookie:[[HNManager sharedManager] SessionCookie] completion:^{
+        if (blockOperation.responseData) {
+            NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+            if (html.length == 0) {
+                // It worked!
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(YES);
+                });
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(NO);
+                });
+            }
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(NO);
+            });
+        }
+    }];
+    [self.HNQueue addOperation:operation];
 }
 
 
