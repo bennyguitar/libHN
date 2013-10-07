@@ -183,6 +183,22 @@ Logging out just deletes the SessionCookie property and the SessionUser property
 [[HNManager sharedManager] logout];
 ```
 
+Here's what the HNUser object looks like, for reference:
+
+```objc
+// HNUser.h
+
+// Properties
+@property (nonatomic, retain) NSString *Username;
+@property (nonatomic, assign) int Karma;
+@property (nonatomic, assign) int Age;
+@property (nonatomic, retain) NSString *AboutInfo;
+
+
+// Methods
++(HNUser *)userFromHTML:(NSString *)html;
+```
+
 ---------------------
 
 ## <a id="submit"></a>Submitting a New Post
@@ -239,7 +255,41 @@ Submitting a post is one of those crucial aspects of keeping the community going
 
 ## <a id="reply"></a>Replying to a Post/Comment
 
-Coming soon!
+Replying in HackerNews is the same regardless of the type of object you are replying to, post or another comment. This makes our lives a lot easier. Because of this, there's only one method to call when you want to reply to an object - you just feed it an HNPost or an HNComment and it figures out what to do from there. You must pass in an HNPost or HNComment as well as the text to comment with. If you don't do this, it will pass back a NO in the completion block, indicating failure. Here's the method:
+
+```objc
+
+[[HNManager sharedManager] replyToPostOrComment:(HNPost *)post withText:@"Comment to a post" completion:(BOOL success){
+ if (success) {
+  // Comment was submitted
+ }
+ else {
+  // Comment failed submitting
+ }
+}];
+
+// And of course, if you want to post a comment to a comment
+[[HNManager sharedManager] replyToPostOrComment:(HNComment *)comment withText:@"Comment to a post" completion:(BOOL success){
+ if (success) {
+  // Comment was submitted
+ }
+ else {
+  // Comment failed submitting
+ }
+}];
+
+/////////////////
+
+// This request won't work!
+[[HNManager sharedManager] replyToPostOrComment:nil withText:@"Comment to a post" completion:(BOOL success){
+ //
+}];
+
+// And neither will this one!
+[[HNManager sharedManager] replyToPostOrComment:(HNComment *)comment withText:nil completion:(BOOL success){
+ //
+}];
+```
 
 ---------------------
 
