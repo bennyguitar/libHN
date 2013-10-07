@@ -39,7 +39,12 @@ static HNManager * _sharedManager = nil;
         self.Service = [[HNWebService alloc] init];
         
         // Set SessionCookie & SessionUser
-        [self validateAndSetCookie];
+        [self validateAndSetCookieWithCompletion:^(HNUser *user) {
+            if (user) {
+                self.SessionUser = user;
+                self.SessionCookie = [HNManager getHNCookie];
+            }
+        }];
 	}
 	return self;
 }
@@ -68,14 +73,10 @@ static HNManager * _sharedManager = nil;
 
 
 #pragma mark - Set Cookie & User
-- (void)validateAndSetCookie {
+- (void)validateAndSetCookieWithCompletion:(LoginCompletion)completion {
     NSHTTPCookie *cookie = [HNManager getHNCookie];
     if (cookie) {
-        [self.Service validateAndSetSessionWithCookie:cookie completion:^(BOOL success) {
-            if (success) {
-                self.SessionCookie = cookie;
-            }
-        }];
+        [self.Service validateAndSetSessionWithCookie:cookie completion:completion];
     }
 }
 

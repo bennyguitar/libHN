@@ -40,7 +40,7 @@ typedef void (^BooleanSuccessBlock) (BOOL success);
 - (void)loadPostsWithFNID:(NSString *)fnid completion:(GetPostsCompletion)completion;
 - (void)loadCommentsFromPost:(HNPost *)post completion:(GetCommentsCompletion)completion;
 - (void)loginWithUsername:(NSString *)user pass:(NSString *)pass completion:(LoginCompletion)completion;
-- (void)validateAndSetSessionWithCookie:(NSHTTPCookie *)cookie completion:(BooleanSuccessBlock)completion;
+- (void)validateAndSetSessionWithCookie:(NSHTTPCookie *)cookie completion:(LoginCompletion)completion;
 
 @end
 

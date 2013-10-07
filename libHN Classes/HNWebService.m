@@ -253,14 +253,6 @@
             if (html) {
                 HNUser *user = [HNUser userFromHTML:html];
                 if (user) {
-                    // Set the Session User
-                    [[HNManager sharedManager] setSessionUser:user];
-                    
-                    // Set the SessionCookie if it doesn't exist
-                    if (![[HNManager sharedManager] SessionCookie]) {
-                        [[HNManager sharedManager] setSessionCookie:[HNManager getHNCookie]];
-                    }
-                    
                     // Finally return the user we've been looking for
                     dispatch_async(dispatch_get_main_queue(), ^{
                         completion(user);
@@ -288,7 +280,7 @@
 }
 
 
-- (void)validateAndSetSessionWithCookie:(NSHTTPCookie *)cookie completion:(BooleanSuccessBlock)completion {
+- (void)validateAndSetSessionWithCookie:(NSHTTPCookie *)cookie completion:(LoginCompletion)completion {
     // And finally we attempt to create the User
     // Build URL String
     NSString *urlPath = [NSString stringWithFormat:@"%@", kBaseURLAddress];
@@ -310,31 +302,31 @@
                     [self getUser:userString completion:^(HNUser *user) {
                         if (user) {
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                completion(YES);
+                                completion(user);
                             });
                         }
                         else {
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                completion(NO);
+                                completion(nil);
                             });
                         }
                     }];
                 }
                 else {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        completion(NO);
+                        completion(nil);
                     });
                 }
             }
             else {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(NO);
+                    completion(nil);
                 });
             }
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                completion(NO);
+                completion(nil);
             });
         }
     }];
