@@ -269,7 +269,7 @@ Replying in HackerNews is the same regardless of the type of object you are repl
 }];
 
 // And of course, if you want to post a comment to a comment
-[[HNManager sharedManager] replyToPostOrComment:(HNComment *)comment withText:@"Comment to a post" completion:(BOOL success){
+[[HNManager sharedManager] replyToPostOrComment:(HNComment *)comment withText:@"Comment to a Comment" completion:(BOOL success){
  if (success) {
   // Comment was submitted
  }
