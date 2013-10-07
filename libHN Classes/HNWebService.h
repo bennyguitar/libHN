@@ -33,7 +33,7 @@ typedef void (^GetCommentsCompletion) (NSArray *comments);
 typedef void (^LoginCompletion) (HNUser *user, NSHTTPCookie *cookie);
 typedef void (^BooleanSuccessBlock) (BOOL success);
 typedef void (^SubmitPostSuccessBlock) (BOOL success);
-typedef void (^SubmitCommentSuccessBlock) (HNComment *comment);
+typedef void (^SubmitCommentSuccessBlock) (BOOL success);
 
 
 #pragma mark - HNWebService
