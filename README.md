@@ -295,7 +295,18 @@ Replying in HackerNews is the same regardless of the type of object you are repl
 
 ## Voting on a Post/Comment
 
-Coming soon!
+There are a couple considerations to take when voting on a post. For a **Post**, you can only vote up. On **comments**, you can only vote up until you have >= 500 karma as a User. For this reason, this method might not let you vote up or down depending on your login status and the amount of karma you have on HN. If you get a NO in the completion block of this method - it did not successfuly let you vote.
+
+```objc
+[[HNManager sharedManager] voteOnPostOrComment:(HNPost *)post direction:VoteDirectionUp completion:(BOOL success){
+ if (success) {
+  // Voting worked!
+ }
+ else {
+  // Voting was not successful!
+ }
+}];
+```
 
 ---------------------
 
