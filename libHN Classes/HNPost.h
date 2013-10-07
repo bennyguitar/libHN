@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger, PostType) {
 #pragma mark - Properties
 @property (nonatomic, assign) PostType Type;
 @property (nonatomic,retain) NSString *Username;
-@property (nonatomic, retain) NSURL *Url;
+@property (nonatomic, retain) NSString *UrlString;
 @property (nonatomic, retain) NSString *UrlDomain;
 @property (nonatomic, retain) NSString *Title;
 @property (nonatomic, assign) int Points;
