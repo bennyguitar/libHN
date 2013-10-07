@@ -312,7 +312,29 @@ There are a couple considerations to take when voting on a post. For a **Post**,
 
 ## Fetching all submissions for a User
 
-Coming soon!
+Fetching posts for a user is kind of funky like fetching posts for the homepage based on a filter. The first 30 posts a user has can be achieved by navigating to the site like this: [https://news.ycombinator.com/submitted?id=pg](https://news.ycombinator.com/submitted?id=pg), but if you want any posts after this (assuming they have more than 30), you have to use an FNID again. For this reason, we're going to reuse a method from earlier to get any posts after the initial 30 and save the FNID as a property under HNManager called <code>userSubmissionFNID</code>. Here's how you'd use this:
+
+```objc
+// Fetch the first 30 posts for a User
+[[HNManager sharedManager] fetchSubmissionsForUser:@"pg" completion:(NSArray *posts){
+ if (posts) {
+    // Posts were successfuly retrieved
+  }
+  else {
+    // No posts retrieved, handle the error
+  }
+}];
+
+// Fetch posts 31 - n
+[[HNManager sharedManager] loadPostsWithFNID:[[HNManager sharedManager] userSubmissionFNID] completion:(NSArray *posts){
+  if (posts) {
+    // Posts were successfuly retrieved
+  }
+  else {
+    // No posts retrieved, handle the error
+  }
+}];
+```
 
 ---------------------
 
