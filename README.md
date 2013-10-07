@@ -3,6 +3,8 @@ libHN
 
 The definitive Cocoa framework for adding HackerNews to your iOS/Mac app. This mini library includes features such as grabbing Posts (including filtering by Top, Ask, New, Jobs, Best), Comments, Logging in, and Submitting new posts/comments!
 
+![Screenshot](https://raw.github.com/bennyguitar/libHN/master/Screenshots/screen1-01.png)
+
 ---------------------
 
 ## Getting Started
@@ -161,7 +163,7 @@ The way HN operates in the browser is off of an HTTP Cookie. This Cookie is gene
 }];
 ```
 
-Logging out just deletes the SessionCookie property and the SessionUser property from memory, so you can't use them any more to make user-specific requests like submitting and commenting. Logging out is dead simple to implement.
+Logging out just deletes the SessionCookie property and the SessionUser property from memory, as well as the actual cookie from <code>[NSHTTPCookieStorage sharedStorage]</code>, so you can't use them any more to make user-specific requests like submitting and commenting. Logging out is dead simple to implement.
 
 ```objc
 [[HNManager sharedManager] logout];
