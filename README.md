@@ -19,6 +19,8 @@ The definitive Cocoa framework for adding HackerNews to your iOS/Mac app. This m
   * [Reply to a Post/Comment](#replying-to-a-postcomment)
   * [Voting on a Post/Comment](#voting-on-a-postcomment)
   * [Fetching submissions for a Username](#fetching-all-submissions-for-a-user)
+* [Designing for the Future, and beyond!](#designing-for-the-future-and-beyond)
+* [Apps that use libHN](#apps-that-use-libhn)
 * [License](#license)
 
 ## Getting Started
@@ -338,7 +340,25 @@ Fetching posts for a user is kind of funky like fetching posts for the homepage 
 
 ---------------------
 
-## <a id="license"></a>License
+## Designing for the Future, and beyond!
+
+Well basically, if you've dug in to the innards of how this works, you will have noticed that it relies very, very heavily on a parsing scheme to get the right info and make sesnse of it. As anyone who has every built something that scrapes knows, this is **not** a future-proof scheme. With that being said, I haven't seen HN change their innards. I think there are a few options to making this awesome and maintainble should HN do this, some of which are feasible and others probably less so.
+
+* persuade PG to make a damn API - I mean hell, I'll contribute to the lion's share
+* use an online DB with the order of parsing and what parsing "tags" to look for so that if HN does change, nobody has to wait a week for Apple approval while their app crashes.
+* write an API that scrapes HN every few minutes, but that costs money to provide volume to every app that may use it, and I'm broke.
+
+---------------------
+
+## Apps that use libHN
+
+Here's a list of iOS/Mac apps that use libHN to provide sweet functionality. Use this library in your app? Open an issue and I'll add it to the list here:
+
+* [News/YC](https://itunes.apple.com/us/app/news-yc/id592893508?mt=8)
+
+---------------------
+
+## License
 
 libHN is licensed under the standard MIT License.
 
