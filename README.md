@@ -185,13 +185,13 @@ Logging out just deletes the SessionCookie property and the SessionUser property
 
 ---------------------
 
-## <a id="submit"></a>Submitting a New Post!
+## <a id="submit"></a>Submitting a New Post
 
 Coming soon!
 
 ---------------------
 
-## <a id="reply"></a>Replying to a Post/Comment!
+## <a id="reply"></a>Replying to a Post/Comment
 
 Coming soon!
 
@@ -203,7 +203,7 @@ Coming soon!
 
 ---------------------
 
-## <a id="get-submissions"></a>Fetching all submissions for a User!
+## <a id="get-submissions"></a>Fetching all submissions for a User
 
 Coming soon!
 
