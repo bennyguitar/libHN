@@ -226,22 +226,12 @@ Submitting a post is one of those crucial aspects of keeping the community going
 
 // These requests won't work!
 [[HNManager sharedManager] submitPostWithTitle:@"Hello World!" link:nil text:nil completion:(BOOL success){
- if (success) {
-  // Post was submitted
- }
- else {
-  // Post was not submitted
- }
+ //
 }];
 
 // Must have a title!
 [[HNManager sharedManager] submitPostWithTitle:nil link:nil text:@"Hello World!" completion:(BOOL success){
- if (success) {
-  // Post was submitted
- }
- else {
-  // Post was not submitted
- }
+ //
 }];
 ```
 
