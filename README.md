@@ -15,8 +15,8 @@ The definitive Cocoa framework for adding HackerNews to your iOS/Mac app. This m
   * [Fetching Posts](#fetching-posts)
   * [Fetching Comments for a Post](#fetching-comments)
   * [Logging In/Out](#login-out)
-  * [Submitting a Post](#submit)
-  * [Reply to a Post/Comment](#reply)
+  * [Submitting a Post](#submit-post)
+  * [Reply to a Post/Comment](#reply-to-post)
   * [Voting on a Post/Comment](#voting)
   * [Fetching submissions for a Username](#get-submissions)
 * [License](#license)
@@ -201,7 +201,7 @@ Here's what the HNUser object looks like, for reference:
 
 ---------------------
 
-## <a id="submit"></a>Submitting a New Post
+## <a id="submit-post"></a>Submitting a New Post
 
 Submitting a post is one of those crucial aspects of keeping the community going. Unfortunately, most of the good iOS/Mac clients don't feature this functionality - and so we're left with wallflowers, albeit beautiful, but still wallflowers. Not anymore though. On HackerNews, you can submit a link or a text post (Ask HN), and so we mimic this functionality inside of one single webservice call. To do a text post, just leave the link parameter nil. If both the link parameter AND the text parameter are filled in, the text will be ignored. If both are nil, then the completion block will fire with NO as the boolean value. Here's how you'd implement this:
 
@@ -253,7 +253,7 @@ Submitting a post is one of those crucial aspects of keeping the community going
 
 ---------------------
 
-## <a id="reply"></a>Replying to a Post/Comment
+## <a id="reply-to-post"></a>Replying to a Post/Comment
 
 Replying in HackerNews is the same regardless of the type of object you are replying to, post or another comment. This makes our lives a lot easier. Because of this, there's only one method to call when you want to reply to an object - you just feed it an HNPost or an HNComment and it figures out what to do from there. You must pass in an HNPost or HNComment as well as the text to comment with. If you don't do this, it will pass back a NO in the completion block, indicating failure. Here's the method:
 
