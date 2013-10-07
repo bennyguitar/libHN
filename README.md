@@ -7,19 +7,33 @@ The definitive Cocoa framework for adding HackerNews to your iOS/Mac app. This m
 
 ---------------------
 
-## Getting Started
+## Table of Contents
+
+* [Installing](#getting-started)
+* [HNManager](#hn-manager)
+* HN Web Calls
+  * [Fetching Posts](#fetching-posts)
+  * [Fetching Comments for a Post](#fetching-comments)
+  * [Logging In/Out](#login-out)
+  * [Submitting a Post](#submit)
+  * [Reply to a Post/Comment](#reply)
+  * [Voting on a Post/Comment](#voting)
+  * [Fetching submissions for a Username](#get-submissions)
+* [License](#license)
+
+## <a id="getting-started"></a>Getting Started
 
 Installing libHN is a breeze. First things first, add all of the classes in the top-level **libHN Classes** folder inside of this repository into your app. Done? Good. Now, just <code>#import "libHN.h"</code> in any of your controllers, classes, or views you plan on using libHN in. That's it. We're done here.
 
 ---------------------
 
-## HNManager
+## <a id="hn-manager"></a>HNManager
 
 **HNManager** is going to be your go-to class for using libHN. Every action flows through there - all web calls, session generation, etc. It's your conduit to HackerNews functionality. HNManager is a Singleton class, and has a <code>defaultManager</code> initialization that you should use to make sure everything gets routed correctly through the Manager.
 
 ---------------------
 
-## Fetching Posts
+## <a id="fetching-posts"></a>Fetching Posts
 
 Because of the way HackerNews is set up, there are two methods for getting posts. The first one <code>loadPostsWithFilter:completion:</code>, is your beginning method to retrieving posts based on a filter. So if you go to the [HN homepage](https://news.ycombinator.com/) this is what you'd get if you call this method and use <code>PostFilterTypeTop</code> as the PostFilterType parameter.
 
@@ -94,7 +108,7 @@ typedef NS_ENUM(NSInteger, PostType) {
 
 ---------------------
 
-## Fetching Comments
+## <a id="fetching-comments"></a>Fetching Comments
 
 There's only one method to load comments, and naturally, it follows from loading the Posts. After you load your Posts, you can pass one in to the following method to return an array of <code>HNComment</code> objects. If you go to an AskHN post, you'll notice that the text is inline with the rest of the comments (separated by a text area for a reply), so I decided to include that self-post as the first comment in the returned array. You can tell what this is by using the <code>Type</code> property of the HNComment. The same goes for an HNJobs post. Sometimes, a Jobs post will be a self-post to HN, instead of an external link, so you can capture this data in the exact same way as a regular comment. If the Type == CommentTypeJobs, then you know you have a self jobs post.
 
@@ -142,7 +156,7 @@ typedef NS_ENUM(NSInteger, CommentType) {
 
 ---------------------
 
-## Logging In/Out
+## <a id="login-out"></a>Logging In/Out
 
 User related actions are a vital aspect of being part of the HackerNews community. I mean, if you can't be active in discussion or submit interesting links, then you might as well be a bystander. Unfortunately most HN Reader iOS/Mac apps neglect this part of the community and focus more on the interesting links themselves. There's a good reason for this - it's not trivial to implement; you have to think about Cookies and going through two web calls just to get a submission or comment to go through. It's annoying, and I've decided to make developers' lives easier by doing the annoying work myself and abstracting it away so you don't have to think about it again. It all starts with logging in.
 
@@ -171,25 +185,31 @@ Logging out just deletes the SessionCookie property and the SessionUser property
 
 ---------------------
 
-## Submitting a New Post!
+## <a id="submit"></a>Submitting a New Post!
 
 Coming soon!
 
 ---------------------
 
-## Replying to a Post/Comment!
+## <a id="reply"></a>Replying to a Post/Comment!
 
 Coming soon!
 
 ---------------------
 
-## Fetching all submissions for a User!
+## <a id="voting"></a>Voting on a Post/Comment
 
 Coming soon!
 
 ---------------------
 
-## License
+## <a id="get-submissions"></a>Fetching all submissions for a User!
+
+Coming soon!
+
+---------------------
+
+## <a id="license"></a>License
 
 Coming soon!
 
