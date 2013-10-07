@@ -187,7 +187,63 @@ Logging out just deletes the SessionCookie property and the SessionUser property
 
 ## <a id="submit"></a>Submitting a New Post
 
-Coming soon!
+Submitting a post is one of those crucial aspects of keeping the community going. Unfortunately, most of the good iOS/Mac clients don't feature this functionality - and so we're left with wallflowers, albeit beautiful, but still wallflowers. Not anymore though. On HackerNews, you can submit a link or a text post (Ask HN), and so we mimic this functionality inside of one single webservice call. To do a text post, just leave the link parameter nil. If both the link parameter AND the text parameter are filled in, the text will be ignored. If both are nil, then the completion block will fire with NO as the boolean value. Here's how you'd implement this:
+
+```objc
+// Submit a Link!
+[[HNManager sharedManager] submitPostWithTitle:@"Hello World!" link:@"www.helloworld.com" text:nil completion:(BOOL success){
+ if (success) {
+  // Post was submitted
+ }
+ else {
+  // Post was not submitted
+ }
+}];
+
+// Submit a text post!
+[[HNManager sharedManager] submitPostWithTitle:@"Hello World!" link:nil text:@"Hello World!" completion:(BOOL success){
+ if (success) {
+  // Post was submitted
+ }
+ else {
+  // Post was not submitted
+ }
+}];
+
+/////////////////
+
+// This will use the LINK and not the text
+[[HNManager sharedManager] submitPostWithTitle:@"Hello World!" link:@"www.helloworld.com" text:@"Hello World!" completion:(BOOL success){
+ if (success) {
+  // Post was submitted
+ }
+ else {
+  // Post was not submitted
+ }
+}];
+
+/////////////////
+
+// These requests won't work!
+[[HNManager sharedManager] submitPostWithTitle:@"Hello World!" link:nil text:nil completion:(BOOL success){
+ if (success) {
+  // Post was submitted
+ }
+ else {
+  // Post was not submitted
+ }
+}];
+
+// Must have a title!
+[[HNManager sharedManager] submitPostWithTitle:nil link:nil text:@"Hello World!" completion:(BOOL success){
+ if (success) {
+  // Post was submitted
+ }
+ else {
+  // Post was not submitted
+ }
+}];
+```
 
 ---------------------
 
