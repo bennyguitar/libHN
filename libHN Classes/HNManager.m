@@ -153,6 +153,9 @@ static HNManager * _sharedManager = nil;
     return nil;
 }
 
+- (BOOL)isUserLoggedIn {
+    return (self.SessionCookie != nil && self.SessionUser != nil);
+}
 
 
 
