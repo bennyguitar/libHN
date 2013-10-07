@@ -18,6 +18,7 @@ typedef void (^SuccessfulLoginBlock) (HNUser *user);
 #pragma mark - Properties
 @property (nonatomic, retain) HNWebService *Service;
 @property (nonatomic, retain) NSString *postFNID;
+@property (nonatomic, retain) NSString *userSubmissionFNID;
 @property (nonatomic, retain) NSHTTPCookie *SessionCookie;
 @property (nonatomic, retain) HNUser *SessionUser;
 

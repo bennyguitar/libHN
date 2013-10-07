@@ -600,7 +600,37 @@
 
 #pragma mark - Fetch Submissions
 - (void)fetchSubmissionsForUser:(NSString *)user completion:(GetPostsCompletion)completion {
+    // Make the url path
+    NSString *urlPath = [NSString stringWithFormat:@"%@submitted?id=%@", kBaseURLAddress, user];
     
+    // Start the Operation
+    HNOperation *operation = [[HNOperation alloc] init];
+    __block HNOperation *blockOperation = operation;
+    [operation setUrlPath:urlPath data:nil cookie:[[HNManager sharedManager] SessionCookie] completion:^{
+        if (blockOperation.responseData) {
+            NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+            if ([html rangeOfString:@"No such user."].location != NSNotFound && html.length == 13) {
+                // Bad Request
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(nil);
+                });
+            }
+            else {
+                NSString *fnid = @"";
+                NSArray *posts = [HNPost parsedPostsFromHTML:html FNID:&fnid];
+                [[HNManager sharedManager] setUserSubmissionFNID:fnid];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(posts);
+                });
+            }
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(nil);
+            });
+        }
+    }];
+    [self.HNQueue addOperation:operation];
 }
 
 
