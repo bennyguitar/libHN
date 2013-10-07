@@ -57,6 +57,8 @@ typedef void (^SubmitCommentSuccessBlock) (HNComment *comment);
 - (void)replyToHNObject:(id)hnObject withText:(NSString *)text completion:(SubmitCommentSuccessBlock)completion;
 // Voting
 - (void)voteOnHNObject:(id)hnObject direction:(VoteDirection)direction completion:(BooleanSuccessBlock)completion;
+// Get Submissions for User
+- (void)fetchSubmissionsForUser:(NSString *)user completion:(GetPostsCompletion)completion;
 
 @end
 

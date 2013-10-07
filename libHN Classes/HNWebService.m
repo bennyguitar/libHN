@@ -343,6 +343,12 @@
 }
 
 
+#pragma mark - Fetch Submissions
+- (void)fetchSubmissionsForUser:(NSString *)user completion:(GetPostsCompletion)completion {
+    
+}
+
+
 @end
 
 

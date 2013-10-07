@@ -33,6 +33,7 @@ typedef void (^SuccessfulLoginBlock) (HNUser *user);
 - (void)submitPostWithTitle:(NSString *)title link:(NSString *)link text:(NSString *)text completion:(SubmitPostSuccessBlock)completion;
 - (void)replyToPostOrComment:(id)hnObject withText:(NSString *)text completion:(SubmitCommentSuccessBlock)completion;
 - (void)voteOnPostOrComment:(id)hnObject direction:(VoteDirection)direction completion:(BooleanSuccessBlock)completion;
+- (void)fetchSubmissionsForUser:(NSString *)user completion:(GetPostsCompletion)completion;
 
 #pragma mark - Internal Methods
 + (NSHTTPCookie *)getHNCookie;

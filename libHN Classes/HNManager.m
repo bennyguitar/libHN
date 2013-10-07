@@ -121,6 +121,17 @@ static HNManager * _sharedManager = nil;
     [self.Service voteOnHNObject:hnObject direction:direction completion:completion];
 }
 
+- (void)fetchSubmissionsForUser:(NSString *)user completion:(GetPostsCompletion)completion {
+    if (!user) {
+        // Need a username to get their submissions!
+        completion(nil);
+        return;
+    }
+    
+    // Make the webservice call
+    [self.Service fetchSubmissionsForUser:user completion:completion];
+}
+
 
 #pragma mark - Set Cookie & User
 - (void)validateAndSetCookieWithCompletion:(LoginCompletion)completion {
