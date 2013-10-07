@@ -91,7 +91,7 @@ static HNManager * _sharedManager = nil;
 - (void)submitPostWithTitle:(NSString *)title link:(NSString *)link text:(NSString *)text completion:(SubmitPostSuccessBlock)completion {
     if ((!link && !text) || !title) {
         // No link and text, or no title - can't submit
-        completion(nil);
+        completion(NO);
         return;
     }
     

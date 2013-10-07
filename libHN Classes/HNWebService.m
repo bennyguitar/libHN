@@ -327,7 +327,98 @@
 
 #pragma mark - Submit Post
 - (void)submitPostWithTitle:(NSString *)title link:(NSString *)link text:(NSString *)text completion:(SubmitPostSuccessBlock)completion {
+    // Submitting a post is a two=part process
+    // 1. Get the fnid of the Submission page
+    // 2. Submit the link/text using the fnid
     
+    // if no Cookie, we can't submit
+    if (![[HNManager sharedManager] SessionCookie]) {
+        completion(NO);
+        return;
+    }
+    
+    // Make the url path
+    NSString *urlPath = [NSString stringWithFormat:@"%@submit", kBaseURLAddress];
+    
+    // Start the Operation
+    HNOperation *operation = [[HNOperation alloc] init];
+    __block HNOperation *blockOperation = operation;
+    [operation setUrlPath:urlPath data:nil cookie:[[HNManager sharedManager] SessionCookie] completion:^{
+        if (blockOperation.responseData) {
+            NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+            if ([html rangeOfString:@"login"].location == NSNotFound) {
+                NSString *trash = @"", *fnid = @"";
+                NSScanner *scanner = [NSScanner scannerWithString:html];
+                [scanner scanUpToString:@"name=\"fnid\" value=\"" intoString:&trash];
+                [scanner scanString:@"name=\"fnid\" value=\"" intoString:&trash];
+                [scanner scanUpToString:@"\"" intoString:&fnid];
+                
+                if (fnid.length > 0) {
+                    // Create BodyData
+                    NSString *bodyString;
+                    if (link.length > 0) {
+                        bodyString = [NSString stringWithFormat:@"fnid=%@&u=%@&t=%@&x=\"\"", fnid, link, title];
+                    }
+                    else {
+                        bodyString = [NSString stringWithFormat:@"fnid=%@&u=\"\"&t=%@&x=%@", fnid, title, text];
+                    }
+                    NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
+                    
+                    // Create next Request
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self part2SubmitPostWithData:bodyData completion:completion];
+                    });
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        completion(NO);
+                    });
+                }
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(NO);
+                });
+            }
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(NO);
+            });
+        }
+    }];
+    [self.HNQueue addOperation:operation];
+}
+
+- (void)part2SubmitPostWithData:(NSData *)bodyData completion:(SubmitPostSuccessBlock)completion {
+    // Make the url path
+    NSString *urlPath = [NSString stringWithFormat:@"%@r", kBaseURLAddress];
+    
+    // Start the Operation
+    HNOperation *operation = [[HNOperation alloc] init];
+    __block HNOperation *blockOperation = operation;
+    [operation setUrlPath:urlPath data:bodyData cookie:[[HNManager sharedManager] SessionCookie] completion:^{
+        if (blockOperation.responseData) {
+            NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+            if ([html rangeOfString:@"logout?whence=%6e%65%77%73"].location != NSNotFound) {
+                // It worked!
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(YES);
+                });
+            }
+            else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completion(NO);
+                });
+            }
+        }
+        else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(NO);
+            });
+        }
+    }];
+    [self.HNQueue addOperation:operation];
 }
 
 
