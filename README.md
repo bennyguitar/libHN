@@ -27,6 +27,16 @@ The definitive Cocoa framework for adding HackerNews to your iOS/Mac app. This m
 
 Installing libHN is a breeze. First things first, add all of the classes in the top-level **libHN Classes** folder inside of this repository into your app. Done? Good. Now, just <code>#import "libHN.h"</code> in any of your controllers, classes, or views you plan on using libHN in. That's it. We're done here.
 
+Classes to add:
+* libHN.h
+* HNManager.{h,m}
+* HNUtilities.{h,m}
+* HNWebService.{h,m}
+* HNPost.{h,m}
+* HNComment.{h,m}
+* HNUser.{h,m}
+* HNCommentLink.{h,m}
+
 ---------------------
 
 ## HNManager
