@@ -344,7 +344,7 @@ Fetching posts for a user is kind of funky like fetching posts for the homepage 
 
 Well basically, if you've dug in to the innards of how this works, you will have noticed that it relies very, very heavily on a parsing scheme to get the right info and make sesnse of it. As anyone who has every built something that scrapes knows, this is **not** a future-proof scheme. With that being said, I haven't seen HN change their innards. I think there are a few options to making this awesome and maintainble should HN do this, some of which are feasible and others probably less so.
 
-* persuade PG to make a damn API - I mean hell, I'll contribute to the lion's share
+* persuade PG to make a damn API
 * use an online DB with the order of parsing and what parsing "tags" to look for so that if HN does change, nobody has to wait a week for Apple approval while their app crashes.
 * write an API that scrapes HN every few minutes, but that costs money to provide volume to every app that may use it, and I'm broke.
 
