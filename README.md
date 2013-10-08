@@ -1,9 +1,6 @@
-libHN
-=====
+![Screenshot](https://raw.github.com/bennyguitar/libHN/master/Screenshots/screen1-01.png)
 
 The definitive Cocoa framework for adding HackerNews to your iOS/Mac app. This mini library includes features such as grabbing Posts (including filtering by Top, Ask, New, Jobs, Best), Comments, Logging in, and Submitting new posts/comments!
-
-![Screenshot](https://raw.github.com/bennyguitar/libHN/master/Screenshots/screen1-01.png)
 
 ---------------------
 
