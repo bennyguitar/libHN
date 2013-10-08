@@ -38,7 +38,7 @@ Classes to add:
 
 ## HNManager
 
-**HNManager** is going to be your go-to class for using libHN. Every action flows through there - all web calls, session generation, etc. It's your conduit to HackerNews functionality. HNManager is a Singleton class, and has a <code>defaultManager</code> initialization that you should use to make sure everything gets routed correctly through the Manager.
+**HNManager** is going to be your go-to class for using libHN. Every action flows through there - all web calls, session generation, etc. It's your conduit to HackerNews functionality. HNManager is a Singleton class, and has a <code>sharedManager</code> initialization that you should use to make sure everything gets routed correctly through the Manager.
 
 ---------------------
 
