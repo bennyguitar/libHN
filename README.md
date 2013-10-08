@@ -355,6 +355,13 @@ Well basically, if you've dug in to the innards of how this works, you will have
 * use an online DB with the order of parsing and what parsing "tags" to look for so that if HN does change, nobody has to wait a week for Apple approval while their app crashes.
 * write an API that scrapes HN every few minutes, but that costs money to provide volume to every app that may use it, and I'm broke.
 
+**Features to Add**
+
+I'm thinking of adding these features as things go along, but for v0.1, I wanted a bare-bones HN specific library.
+
+* Mark As Read - use a dictionary and defaults to save PostId's so you can display to the user what they have/haven't read before.
+* Editing A User - save their about/email basically.
+
 ---------------------
 
 ## Apps that use libHN
