@@ -21,6 +21,7 @@ typedef void (^SuccessfulLoginBlock) (HNUser *user);
 @property (nonatomic, retain) NSString *userSubmissionFNID;
 @property (nonatomic, retain) NSHTTPCookie *SessionCookie;
 @property (nonatomic, retain) HNUser *SessionUser;
+@property (nonatomic, retain) NSMutableDictionary *MarkAsReadDictionary;
 
 #pragma mark - Singleton Manager
 + (HNManager *)sharedManager;

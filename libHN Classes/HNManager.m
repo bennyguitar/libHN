@@ -37,6 +37,7 @@ static HNManager * _sharedManager = nil;
 	if (self = [super init]) {
         // Set up Webservice
         self.Service = [[HNWebService alloc] init];
+        self.MarkAsReadDictionary = [NSMutableDictionary dictionary];
 	}
 	return self;
 }
@@ -83,7 +84,7 @@ static HNManager * _sharedManager = nil;
         if (user && cookie) {
             // Set Cookie & User
             [self setCookie:cookie user:user];
-
+            
             // Pass user on through
             completion(user);
         }
@@ -185,5 +186,13 @@ static HNManager * _sharedManager = nil;
 }
 
 
+#pragma mark - Mark As Read
+- (BOOL)hasUserReadPost:(HNPost *)post {
+    return self.MarkAsReadDictionary[post.PostId] ? YES : NO;
+}
+
+- (void)setMarkAsReadForPost:(HNPost *)post {
+    [self.MarkAsReadDictionary setObject:@YES forKey:post.PostId];
+}
 
 @end
