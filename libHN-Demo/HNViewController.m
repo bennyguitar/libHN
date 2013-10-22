@@ -21,7 +21,10 @@
 	// Do any additional setup after loading the view, typically from a nib.
     
     // Test Login
-    [self loginTest];
+    //[[HNManager sharedManager] logout];
+    //[self loginTest];
+    
+    [self performSelector:@selector(submitStoryTest) withObject:nil afterDelay:10];
     
     // Test Getting Posts
     //[self getPostsTest];
@@ -59,6 +62,12 @@
         if (comments) {
             
         }
+    }];
+}
+
+- (void)submitStoryTest {
+    [[HNManager sharedManager] submitPostWithTitle:@"Testing from App" link:nil text:@"TEST. Please let me know that this shit actually works." completion:^(BOOL success) {
+        NSLog(@"Success: %d", success);
     }];
 }
 

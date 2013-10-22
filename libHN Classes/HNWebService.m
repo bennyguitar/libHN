@@ -358,10 +358,10 @@
                     // Create BodyData
                     NSString *bodyString;
                     if (link.length > 0) {
-                        bodyString = [NSString stringWithFormat:@"fnid=%@&u=%@&t=%@&x=\"\"", fnid, link, title];
+                        bodyString = [[NSString stringWithFormat:@"fnid=%@&u=%@&t=%@&x=", fnid, link, title] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                     }
                     else {
-                        bodyString = [NSString stringWithFormat:@"fnid=%@&u=\"\"&t=%@&x=%@", fnid, title, text];
+                        bodyString = [[NSString stringWithFormat:@"fnid=%@&u=&t=%@&x=%@", fnid, title, text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                     }
                     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
                     
@@ -430,7 +430,7 @@
                 
                 if (fnid.length > 0) {
                     // Create BodyData
-                    NSString *bodyString = [NSString stringWithFormat:@"fnid=%@&text=%@", fnid, text];
+                    NSString *bodyString = [[NSString stringWithFormat:@"fnid=%@&text=%@", fnid, text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
                     
                     // Create next Request
