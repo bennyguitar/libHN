@@ -44,4 +44,8 @@ typedef void (^SuccessfulLoginBlock) (HNUser *user);
 #pragma mark - Internal Methods
 + (NSHTTPCookie *)getHNCookie;
 
+#pragma mark - Mark as Read
+- (BOOL)hasUserReadPost:(HNPost *)post;
+- (void)setMarkAsReadForPost:(HNPost *)post;
+
 @end

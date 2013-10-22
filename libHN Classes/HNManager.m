@@ -84,7 +84,7 @@ static HNManager * _sharedManager = nil;
         if (user && cookie) {
             // Set Cookie & User
             [self setCookie:cookie user:user];
-            
+
             // Pass user on through
             completion(user);
         }
