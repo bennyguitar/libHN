@@ -73,7 +73,7 @@ static HNManager * _sharedManager = nil;
 
 #pragma mark - Check for Logged In User
 - (BOOL)userIsLoggedIn {
-    return self.SessionCookie ? YES : NO;
+    return self.SessionCookie && self.SessionUser;
 }
 
 
