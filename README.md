@@ -40,6 +40,10 @@ Classes to add:
 
 **HNManager** is going to be your go-to class for using libHN. Every action flows through there - all web calls, session generation, etc. It's your conduit to HackerNews functionality. HNManager is a Singleton class, and has a <code>sharedManager</code> initialization that you should use to make sure everything gets routed correctly through the Manager.
 
+**Starting a Session**
+
+Add the code snippet, <code>[[HNManager sharedManager] startSession]</code>, to begin a session of the HNManager's sharedManager object. This method will log in a user if he/she has logged in on the app previously, using the Cookie that is stored on the device. For best practices, add this method to the <code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions</code> method in your <code>AppDelegate.m</code> class before the method returns. This will ensure that setting up the manager is the first thing that happens when your app launches, and that any users that are logged in, will log in immediately as well.
+
 ---------------------
 
 ## Fetching Posts
@@ -169,21 +173,21 @@ typedef NS_ENUM(NSInteger, CommentType) {
 
 User related actions are a vital aspect of being part of the HackerNews community. I mean, if you can't be active in discussion or submit interesting links, then you might as well be a bystander. Unfortunately most HN Reader iOS/Mac apps neglect this part of the community and focus more on the interesting links themselves. There's a good reason for this - it's not trivial to implement; you have to think about Cookies and going through two web calls just to get a submission or comment to go through. It's annoying, and I've decided to make developers' lives easier by doing the annoying work myself and abstracting it away so you don't have to think about it again. It all starts with logging in.
 
-The way HN operates in the browser is off of an HTTP Cookie. This Cookie is generated at login, and kept around for a pretty long time. Logging in on a different computer invalidates all Cookies for a user. Therefore, it's necessary to check if there's a cookie, and validate it before attempting to login. This is done automatically when the HNManager initializes itself using the method <code>validateAndSetCookie</code>. It will find the Cookie on the device and attempt to validate it. If it does check out, it will set the cookie to the <code>SessionCookie</code> parameter of the HNManager, as well as grab the correct HNUser so that the <code>SessionUser</code> property is filled in as well. If it doesn't find a Cookie, or the cookie is no longer valid, you will need to login the old-fashioned way using the following method.
-
-**If: SessionCookie and SessionUser are nil, you need to login with this method.**
-
-**Else: don't call this method, as it will generate an entirely new Cookie, and just be a wasted web call.**
+The way HN operates in the browser is off of an HTTP Cookie. This Cookie is generated at login, and kept around for a pretty long time. Logging in on a different computer invalidates all Cookies for a user. Therefore, it's necessary to check if there's a cookie, and validate it before attempting to login. This is done automatically when the HNManager initializes itself using the method <code>startSession</code>. It will find the Cookie on the device and attempt to validate it. If it does check out, it will set the cookie to the <code>SessionCookie</code> parameter of the HNManager, as well as grab the correct HNUser so that the <code>SessionUser</code> property is filled in as well. If it doesn't find a Cookie, or the cookie is no longer valid, you will need to login the old-fashioned way using the following method. Make sure to check that a user is logged in first like so: 
 
 ```objc
-[[HNManager sharedManager] loginWithUsername:@"user" password:@"pass" completion:(HNUser *user){
-  if (user) {
-    // Login was successful!
-  }
-  else {
-    // Login failed, handle the error
-  }
-}];
+// Check to make sure no user is logged in
+if (![[HNManager sharedManager] userIsLoggedIn]) {
+ // No user is logged in; attempt to login
+ [[HNManager sharedManager] loginWithUsername:@"user" password:@"pass" completion:(HNUser *user){
+   if (user) {
+     // Login was successful!
+   }
+   else {
+     // Login failed, handle the error
+   }
+ }];
+}
 ```
 
 Logging out just deletes the SessionCookie property and the SessionUser property from memory, as well as the actual cookie from <code>[NSHTTPCookieStorage sharedStorage]</code>, so you can't use them any more to make user-specific requests like submitting and commenting. Logging out is dead simple to implement.
