@@ -70,6 +70,7 @@ typedef void (^SubmitCommentSuccessBlock) (BOOL success);
 @property (nonatomic, retain) NSURLRequest *urlRequest;
 @property (nonatomic, retain) NSData *bodyData;
 @property (nonatomic, retain) NSData *responseData;
+@property (nonatomic, retain) NSHTTPURLResponse *response;
 
 // Set Path
 -(void)setUrlPath:(NSString *)path data:(NSData *)data cookie:(NSHTTPCookie *)cookie completion:(void (^)(void))block;

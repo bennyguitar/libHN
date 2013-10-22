@@ -10,6 +10,7 @@
 #import "HNManager.h"
 
 #define kBaseURLAddress @"https://news.ycombinator.com/"
+#define kCookieDomain @"news.ycombinator.com"
 #define kMaxConcurrentConnections 15
 
 #pragma mark - HNWebService
@@ -157,7 +158,7 @@
     
     
     // First things first, let's grab that FNID
-    NSString *urlPath = [NSString stringWithFormat:@"%@newslogin?whence=news", kBaseURLAddress];
+    NSString *urlPath = [NSString stringWithFormat:@"%@%@", kBaseURLAddress, @"newslogin?whence=%6e%65%77%73"];
     
     // Build the operation
     HNOperation *operation = [[HNOperation alloc] init];
@@ -199,7 +200,7 @@
     NSString *urlPath = [NSString stringWithFormat:@"%@y", kBaseURLAddress];
     
     // Build the body data
-    NSString *bodyString = [NSString stringWithFormat:@"fnid=%@&u=%@&p=%@",fnid,user,pass];
+    NSString *bodyString = [NSString stringWithFormat:@"u=%@&p=%@&fnid=%@",user,pass,fnid];
     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
     
     // Start the Operation
@@ -210,8 +211,8 @@
             // Now attempt part 3
             NSString *responseString = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
             if (responseString) {
-                if ([responseString rangeOfString:@">Bad login.<"].location == NSNotFound) {
-                    // Login Succeded, let's create a user
+                if ([responseString rangeOfString:@">Bad login."].location == NSNotFound && [responseString rangeOfString:@"Unknown or expired link."].location == NSNotFound) {
+                    // Login Succeded
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self getLoggedInUser:user completion:completion];
                     });
@@ -285,7 +286,7 @@
 - (void)validateAndSetSessionWithCookie:(NSHTTPCookie *)cookie completion:(LoginCompletion)completion {
     // And finally we attempt to create the User
     // Build URL String
-    NSString *urlPath = [NSString stringWithFormat:@"%@", kBaseURLAddress];
+    NSString *urlPath = [NSString stringWithFormat:@"%@user?id=pg", kBaseURLAddress];
     
     // Start the Operation
     HNOperation *operation = [[HNOperation alloc] init];
@@ -295,7 +296,7 @@
             // Now attempt part 3
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
             if (html) {
-                if ([html rangeOfString:@"<a href=\"logout?whence=%6e%65%77%73\">"].location != NSNotFound) {
+                if ([html rangeOfString:@"<a href=\"logout"].location != NSNotFound) {
                     NSScanner *scanner = [[NSScanner alloc] initWithString:html];
                     NSString *trash = @"", *userString = @"";
                     [scanner scanUpToString:@"<a href=\"threads?id=" intoString:&trash];
@@ -646,6 +647,9 @@
 
 #pragma mark - Set URL Path
 -(void)setUrlPath:(NSString *)path data:(NSData *)data cookie:(NSHTTPCookie *)cookie completion:(void (^)(void))block {
+    if (data) {
+        self.bodyData = data;
+    }
     if (self.bodyData) {
         self.urlRequest = [HNOperation newJSONRequestWithURL:[NSURL URLWithString:path] bodyData:self.bodyData cookie:cookie];
     }
@@ -653,10 +657,8 @@
         self.urlRequest = [HNOperation newGetRequestForURL:[NSURL URLWithString:path] cookie:cookie];
     }
     
+    // Set Completion Block
     [self setCompletionBlock:block];
-    if (data) {
-        self.bodyData = data;
-    }
 }
 
 
@@ -672,16 +674,18 @@
     NSError *error;
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] init];
     self.responseData = [NSURLConnection sendSynchronousRequest:self.urlRequest returningResponse:&response error:&error];
+    self.response = response;
 }
-
 
 #pragma mark - URL Request Building
 +(NSMutableURLRequest *)newGetRequestForURL:(NSURL *)url cookie:(NSHTTPCookie *)cookie {
     NSMutableURLRequest *Request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
+    [Request setHTTPShouldHandleCookies:YES];
     [Request setHTTPMethod:@"GET"];
     
     if (cookie) {
-        [Request setAllHTTPHeaderFields:[NSHTTPCookie requestHeaderFieldsWithCookies:@[cookie]]];
+        NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:@[cookie]];
+        [Request setAllHTTPHeaderFields:headers];
     }
     
     return Request;
@@ -690,13 +694,15 @@
 +(NSMutableURLRequest *)newJSONRequestWithURL:(NSURL *)url bodyData:(NSData *)bodyData cookie:(NSHTTPCookie *)cookie {
     NSMutableURLRequest *Request = [[NSMutableURLRequest alloc] initWithURL:url];
     [Request setHTTPMethod:@"POST"];
-    [Request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    //[Request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    //[Request setValue:@(bodyData.length) forKey:@"Content-Length"];
     [Request setHTTPBody:bodyData];
     [Request setHTTPShouldHandleCookies:YES];
     [Request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
     
     if (cookie) {
-        [Request setAllHTTPHeaderFields:[NSHTTPCookie requestHeaderFieldsWithCookies:@[cookie]]];
+        NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:@[cookie]];
+        [Request setAllHTTPHeaderFields:headers];
     }
     
     return Request;

@@ -14,7 +14,6 @@
 		C0FB75DF1801E2E300BDA142 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB75DE1801E2E300BDA142 /* main.m */; };
 		C0FB75E31801E2E300BDA142 /* HNAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB75E21801E2E300BDA142 /* HNAppDelegate.m */; };
 		C0FB75E61801E2E300BDA142 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0FB75E41801E2E300BDA142 /* Main_iPhone.storyboard */; };
-		C0FB75E91801E2E300BDA142 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0FB75E71801E2E300BDA142 /* Main_iPad.storyboard */; };
 		C0FB75EC1801E2E300BDA142 /* HNViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0FB75EB1801E2E300BDA142 /* HNViewController.m */; };
 		C0FB75EE1801E2E300BDA142 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0FB75ED1801E2E300BDA142 /* Images.xcassets */; };
 		C0FB75F51801E2E300BDA142 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0FB75F41801E2E300BDA142 /* XCTest.framework */; };
@@ -53,7 +52,6 @@
 		C0FB75E11801E2E300BDA142 /* HNAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNAppDelegate.h; sourceTree = "<group>"; };
 		C0FB75E21801E2E300BDA142 /* HNAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNAppDelegate.m; sourceTree = "<group>"; };
 		C0FB75E51801E2E300BDA142 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
-		C0FB75E81801E2E300BDA142 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		C0FB75EA1801E2E300BDA142 /* HNViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HNViewController.h; sourceTree = "<group>"; };
 		C0FB75EB1801E2E300BDA142 /* HNViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HNViewController.m; sourceTree = "<group>"; };
 		C0FB75ED1801E2E300BDA142 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -140,7 +138,6 @@
 				C0FB75E11801E2E300BDA142 /* HNAppDelegate.h */,
 				C0FB75E21801E2E300BDA142 /* HNAppDelegate.m */,
 				C0FB75E41801E2E300BDA142 /* Main_iPhone.storyboard */,
-				C0FB75E71801E2E300BDA142 /* Main_iPad.storyboard */,
 				C0FB75EA1801E2E300BDA142 /* HNViewController.h */,
 				C0FB75EB1801E2E300BDA142 /* HNViewController.m */,
 				C0FB75ED1801E2E300BDA142 /* Images.xcassets */,
@@ -309,7 +306,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0FB75E91801E2E300BDA142 /* Main_iPad.storyboard in Resources */,
 				C0FB75EE1801E2E300BDA142 /* Images.xcassets in Resources */,
 				C0FB75E61801E2E300BDA142 /* Main_iPhone.storyboard in Resources */,
 				C0FB75DD1801E2E300BDA142 /* InfoPlist.strings in Resources */,
@@ -377,14 +373,6 @@
 				C0FB75E51801E2E300BDA142 /* Base */,
 			);
 			name = Main_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		C0FB75E71801E2E300BDA142 /* Main_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C0FB75E81801E2E300BDA142 /* Base */,
-			);
-			name = Main_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		C0FB75FD1801E2E300BDA142 /* InfoPlist.strings */ = {

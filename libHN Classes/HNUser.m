@@ -17,17 +17,20 @@
     HNUser *newUser = [[HNUser alloc] init];
     
     // Scan HTML into strings
-    NSString *trash=@"", *age=@"", *karma=@"", *about=@"";
+    NSString *trash=@"", *age=@"", *karma=@"", *about=@"", *user=@"";
     NSScanner *scanner = [NSScanner scannerWithString:html];
+    [scanner scanUpToString:@"user:</td><td>" intoString:&trash];
+    [scanner scanString:@"user:</td><td>" intoString:&trash];
+    [scanner scanUpToString:@"</td>" intoString:&user];
     [scanner scanUpToString:@"created:" intoString:&trash];
     [scanner scanString:@"created:</td><td>" intoString:&trash];
     [scanner scanUpToString:@" " intoString:&age];
     [scanner scanUpToString:@"karma:" intoString:&trash];
     [scanner scanString:@"karma:</td><td>" intoString:&trash];
     [scanner scanUpToString:@"</td>" intoString:&karma];
-    [scanner scanUpToString:@"name=\"about\"" intoString:&trash];
-    [scanner scanString:@"name=\"about\">" intoString:&trash];
-    [scanner scanUpToString:@"</textarea>" intoString:&about];
+    [scanner scanUpToString:@"about:</td><td>" intoString:&trash];
+    [scanner scanString:@"about:</td><td>" intoString:&trash];
+    [scanner scanUpToString:@"</td>" intoString:&about];
     
     // Bad response
     if (age.length == 0) {
@@ -38,6 +41,7 @@
     }
     
     // Set properties
+    newUser.Username = user;
     newUser.Age = [age intValue];
     newUser.Karma = [karma intValue];
     newUser.AboutInfo = [HNUtilities stringByReplacingHTMLEntitiesInText:about];
