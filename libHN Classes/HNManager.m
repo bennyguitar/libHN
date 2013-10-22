@@ -138,7 +138,7 @@ static HNManager * _sharedManager = nil;
 }
 
 - (void)voteOnPostOrComment:(id)hnObject direction:(VoteDirection)direction completion:(BooleanSuccessBlock)completion {
-    if (!hnObject || !direction) {
+    if (!(hnObject || direction)) {
         // Must be a Post/Comment and direction to vote!
         completion(NO);
         return;

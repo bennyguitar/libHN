@@ -70,6 +70,7 @@
         NSString *text = @"";
         NSString *timeAgo = @"";
         NSString *reply = @"";
+        NSString *commentId = @"";
         
         // Get Comment Level
         [scanner scanString:@"height=1 width=" intoString:&trash];
@@ -95,6 +96,12 @@
         [scanner scanString:@">" intoString:&trash];
         [scanner scanUpToString:@"</font>" intoString:&text];
         newComment.Text = [HNUtilities stringByReplacingHTMLEntitiesInText:text];
+        
+        // Get CommentId
+        [scanner scanUpToString:@"reply?id=" intoString:&trash];
+        [scanner scanString:@"reply?id=" intoString:&trash];
+        [scanner scanUpToString:@"&" intoString:&commentId];
+        newComment.CommentId = commentId;
         
         // Get Reply URL Addition
         [scanner scanUpToString:@"<font size=1><u><a href=\"" intoString:&trash];

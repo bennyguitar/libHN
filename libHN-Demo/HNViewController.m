@@ -22,9 +22,9 @@
     
     // Test Login
     //[[HNManager sharedManager] logout];
-    //[self loginTest];
+    [self loginTest];
     
-    [self performSelector:@selector(submitStoryTest) withObject:nil afterDelay:10];
+    //[self performSelector:@selector(getPostsTest) withObject:nil afterDelay:6];
     
     // Test Getting Posts
     //[self getPostsTest];
@@ -42,7 +42,7 @@
     if (![[HNManager sharedManager] userIsLoggedIn]) {
         [[HNManager sharedManager] loginWithUsername:@"user" password:@"pass" completion:^(HNUser *user) {
             if (user) {
-                NSLog(@"%@ - %d", user.Username, user.Karma);
+                [self getPostsTest];
             }
         }];
     }
@@ -60,7 +60,9 @@
 - (void)getCommentsTest:(HNPost *)post {
     [[HNManager sharedManager] loadCommentsFromPost:post completion:^(NSArray *comments) {
         if (comments) {
-            
+            [[HNManager sharedManager] voteOnPostOrComment:comments[0] direction:VoteDirectionDown completion:^(BOOL success) {
+                NSLog(@"%d", success);
+            }];
         }
     }];
 }

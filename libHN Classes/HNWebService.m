@@ -532,10 +532,10 @@
             if ([html rangeOfString:@"grayarrow.gif"].location != NSNotFound) {
                 NSString *trash = @"", *voteURL = @"";
                 NSScanner *scanner = [NSScanner scannerWithString:html];
-                [scanner scanUpToString:[NSString stringWithFormat:@"<a id=%@_", (VoteDirectionUp ? @"up" : @"down")] intoString:&trash];
+                [scanner scanUpToString:@"onclick=\"return vote(this)\"" intoString:&trash];
                 [scanner scanUpToString:@"href=\"" intoString:&trash];
                 [scanner scanString:@"href=\"" intoString:&trash];
-                [scanner scanUpToString:@"&amp;whence" intoString:&voteURL];
+                [scanner scanUpToString:@"\"" intoString:&voteURL];
                 
                 if (voteURL.length > 0) {
                     // Create BodyData
