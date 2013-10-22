@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 subvertapps. All rights reserved.
 //
 
+#import "HNManager.h"
 #import "HNAppDelegate.h"
 
 @implementation HNAppDelegate
@@ -13,6 +14,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    // Start Session
+    [[HNManager sharedManager] startSession];
     return YES;
 }
 							

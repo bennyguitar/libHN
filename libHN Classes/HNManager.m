@@ -41,15 +41,49 @@ static HNManager * _sharedManager = nil;
 	return self;
 }
 
+#pragma mark - Start Session
+- (void)startSession {
+    // Set Values from Defaults
+    self.SessionCookie = [HNManager getHNCookie];
+    
+    // Validate User/Cookie
+    [self validateAndSetCookieWithCompletion:^(HNUser *user, NSHTTPCookie *cookie) {
+        if (user) {
+            self.SessionUser = user;
+        }
+        else {
+            self.SessionUser = nil;
+        }
+        if (cookie) {
+            self.SessionCookie = cookie;
+        }
+        else {
+            self.SessionCookie = nil;
+        }
+    }];
+}
+
+
+#pragma mark - Set Session Cookie & Username
+- (void)setCookie:(NSHTTPCookie *)cookie user:(HNUser *)user {
+    // Set Session
+    self.SessionUser = user;
+    self.SessionCookie = cookie;
+}
+
+#pragma mark - Check for Logged In User
+- (BOOL)userIsLoggedIn {
+    return self.SessionCookie ? YES : NO;
+}
+
 
 #pragma mark - WebService Methods
 - (void)loginWithUsername:(NSString *)user password:(NSString *)pass completion:(SuccessfulLoginBlock)completion {
     [self.Service loginWithUsername:user pass:pass completion:^(HNUser *user, NSHTTPCookie *cookie) {
-        if (user) {
-            // Set Session
-            self.SessionUser = user;
-            self.SessionCookie = cookie;
-            
+        if (user && cookie) {
+            // Set Cookie & User
+            [self setCookie:cookie user:user];
+
             // Pass user on through
             completion(user);
         }

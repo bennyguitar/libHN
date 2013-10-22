@@ -25,6 +25,10 @@ typedef void (^SuccessfulLoginBlock) (HNUser *user);
 #pragma mark - Singleton Manager
 + (HNManager *)sharedManager;
 
+#pragma mark - Session
+- (void)startSession;
+- (BOOL)userIsLoggedIn;
+
 #pragma mark - WebService Methods
 - (void)loginWithUsername:(NSString *)user password:(NSString *)pass completion:(SuccessfulLoginBlock)completion;
 - (void)logout;
@@ -35,7 +39,6 @@ typedef void (^SuccessfulLoginBlock) (HNUser *user);
 - (void)replyToPostOrComment:(id)hnObject withText:(NSString *)text completion:(BooleanSuccessBlock)completion;
 - (void)voteOnPostOrComment:(id)hnObject direction:(VoteDirection)direction completion:(BooleanSuccessBlock)completion;
 - (void)fetchSubmissionsForUser:(NSString *)user completion:(GetPostsCompletion)completion;
-- (void)validateAndSetCookieWithCompletion:(LoginCompletion)completion;
 
 #pragma mark - Internal Methods
 + (NSHTTPCookie *)getHNCookie;

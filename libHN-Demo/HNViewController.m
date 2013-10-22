@@ -20,8 +20,10 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    [self validateLoginCookie];
-    //[self loginTest];
+    // Test Login
+    [self loginTest];
+    
+    // Test Getting Posts
     //[self getPostsTest];
 }
 
@@ -31,23 +33,22 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)validateLoginCookie {
-    [[HNManager sharedManager] validateAndSetCookieWithCompletion:^(HNUser *user, NSHTTPCookie *cookie) {
-        NSLog(@"%@ - %@", user.Username, cookie.value);
-    }];
-}
 
 - (void)loginTest {
-    [[HNManager sharedManager] loginWithUsername:@"user" password:@"pass" completion:^(HNUser *user) {
-        if (user) {
-            NSLog(@"%@ - %d", user.Username, user.Karma);
-        }
-    }];
+    // If no user is logged in, log in
+    if (![[HNManager sharedManager] userIsLoggedIn]) {
+        [[HNManager sharedManager] loginWithUsername:@"user" password:@"pass" completion:^(HNUser *user) {
+            if (user) {
+                NSLog(@"%@ - %d", user.Username, user.Karma);
+            }
+        }];
+    }
 }
 
 - (void)getPostsTest {
     [[HNManager sharedManager] loadPostsWithFilter:PostFilterTypeTop completion:^(NSArray *posts) {
         if (posts) {
+            // Test Getting Comments
             [self getCommentsTest:posts[0]];
         }
     }];
