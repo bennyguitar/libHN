@@ -52,7 +52,10 @@
     [[HNManager sharedManager] loadPostsWithFilter:PostFilterTypeTop completion:^(NSArray *posts) {
         if (posts) {
             // Test Getting Comments
-            [self getCommentsTest:posts[0]];
+            //[self getCommentsTest:posts[0]];
+            [[HNManager sharedManager] replyToPostOrComment:posts[0] withText:@"Test" completion:^(BOOL success) {
+                NSLog(@"%d", success);
+            }];
         }
     }];
 }
@@ -60,7 +63,7 @@
 - (void)getCommentsTest:(HNPost *)post {
     [[HNManager sharedManager] loadCommentsFromPost:post completion:^(NSArray *comments) {
         if (comments) {
-            [[HNManager sharedManager] voteOnPostOrComment:comments[0] direction:VoteDirectionDown completion:^(BOOL success) {
+            [[HNManager sharedManager] replyToPostOrComment:comments[0] withText:@"Test" completion:^(BOOL success) {
                 NSLog(@"%d", success);
             }];
         }
