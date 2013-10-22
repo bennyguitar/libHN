@@ -34,6 +34,11 @@
         [scanner scanString:@"</tr><tr><td></td><td>" intoString:&trash];
         [scanner scanUpToString:@"</td>" intoString:&text];
         
+        // Get rid of special text crap
+        if ([text rangeOfString:@"<form method=post"].location != NSNotFound) {
+            text = @"";
+        }
+        
         // Create special comment for it
         HNComment *newComment = [[HNComment alloc] init];
         newComment.Level = 0;
