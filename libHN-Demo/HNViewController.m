@@ -22,18 +22,31 @@
     
     // Test Login
     //[[HNManager sharedManager] logout];
-    [self loginTest];
+    //[self loginTest];
     
     //[self performSelector:@selector(getPostsTest) withObject:nil afterDelay:6];
     
     // Test Getting Posts
     //[self getPostsTest];
+    
+    // Test fetching submissions
+    [self fetchSubmissionsForPG];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (void)fetchSubmissionsForPG {
+    [[HNManager sharedManager] fetchSubmissionsForUser:@"pg" completion:^(NSArray *posts) {
+        //
+        NSLog(@"%@", posts);
+        NSLog(@"%d", posts.count);
+        
+    }];
 }
 
 
