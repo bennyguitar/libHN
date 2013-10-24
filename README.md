@@ -16,6 +16,7 @@ The definitive Cocoa framework for adding HackerNews to your iOS/Mac app. This m
   * [Reply to a Post/Comment](#replying-to-a-postcomment)
   * [Voting on a Post/Comment](#voting-on-a-postcomment)
   * [Fetching submissions for a Username](#fetching-all-submissions-for-a-user)
+* [HNManager Auxiliary Methods](#auxiliary-methods)
 * [Designing for the Future, and beyond!](#designing-for-the-future-and-beyond)
 * [Apps that use libHN](#apps-that-use-libhn)
 * [License](#license)
@@ -347,6 +348,58 @@ Fetching posts for a user is kind of funky like fetching posts for the homepage 
     // No posts retrieved, handle the error
   }
 }];
+```
+
+---------------------
+
+## Auxiliary Methods
+
+<code>HNManager</code> also handles a couple of different HN-related things, such as having the ability to keep track of which posts you have visited - allowing you to mark posts as read without implementing anything yourself. Here's a list of things you can do.
+
+**Mark Posts As Read**
+
+To mark a post as read, there is a dictionary inside of the HNManager that keeps track of everything for you. Using the manager, you can get a boolean on whether a post has been read or not, and also add an HNPost to the dictionary of read posts. Here's how you use this functionality:
+
+```objc
+// Methods
+- (BOOL)hasUserReadPost:(HNPost *)post;
+- (void)setMarkAsReadForPost:(HNPost *)post;
+
+// Has User Read A Post?
+BOOL hasRead = [[HNManager sharedManager] hasUserReadPost:(HNPost *)post];
+if (hasRead) {
+ // User has read the post.
+}
+
+// Add a post
+[[HNManager sharedManager] setMarkAsReadForPost:post];
+```
+
+**Keep A Record of What A User has Voted On**
+
+HackerNews is a little goofy about figuring out what can and cannot be voted on - so keeping track of this can be burdensome if you're rolling your own. However, in conjuction with the method to vote on a post/comment, if you get success back, you can throw the post/comment to this method which will handle what you've voted on.
+
+```objc
+// Methods
+- (BOOL)hasVotedOnObject:(id)hnObject;
+- (void)addHNObjectToVotedOnDictionary:(id)hnObject direction:(VoteDirection)direction;
+
+// Find out if a post has been voted on
+BOOL hasVoted = [[HNManager sharedManager] hasVotedOnObject:(HNPost *)post];
+if (hasVoted) {
+ // User has voted on the Post/Comment
+}
+
+// Add to the record
+[[HNManager sharedManager] addHNObjectToVotedOnDictionary:(HNComment *)comment direction:VoteDirectionDown];
+```
+
+**Killing Web Requests**
+
+Sometimes loading comments or posts can take a while, and you may want to navigate away in your app and stop the loading from continuing. To do this, you can make a simple method call that ends all web requests that are happening at the moment through HNManager.
+
+```objc
+[[HNManager sharedManager] cancelAllRequests];
 ```
 
 ---------------------
