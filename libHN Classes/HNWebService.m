@@ -60,7 +60,7 @@
             NSString *fnid = @"";
             NSArray *posts = [HNPost parsedPostsFromHTML:html FNID:&fnid];
             if (posts) {
-                [[HNManager sharedManager] setPostFNID:fnid];
+                [[HNManager sharedManager] setPostUrlAddition:fnid];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     completion(posts);
                 });
@@ -82,8 +82,8 @@
 
 
 #pragma mark - Load Posts with FNID
-- (void)loadPostsWithFNID:(NSString *)fnid completion:(GetPostsCompletion)completion {
-    if (!fnid || fnid.length == 0) {
+- (void)loadPostsWithUrlAddition:(NSString *)urlAddition completion:(GetPostsCompletion)completion {
+    if (!urlAddition || urlAddition.length == 0) {
         dispatch_async(dispatch_get_main_queue(), ^{
             completion(@[]);
         });
@@ -91,7 +91,7 @@
     }
     
     // Create URL Path
-    NSString *urlPath = [NSString stringWithFormat:@"%@%@", kBaseURLAddress, fnid];
+    NSString *urlPath = [NSString stringWithFormat:@"%@%@", kBaseURLAddress, urlAddition];
     
     // Load the Posts
     HNOperation *operation = [[HNOperation alloc] init];
@@ -102,7 +102,7 @@
             NSString *fnid = @"";
             NSArray *posts = [HNPost parsedPostsFromHTML:html FNID:&fnid];
             if (posts) {
-                [[HNManager sharedManager] setPostFNID:fnid];
+                [[HNManager sharedManager] setPostUrlAddition:fnid];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     completion(posts);
                 });
@@ -647,7 +647,7 @@
             else {
                 NSString *fnid = @"";
                 NSArray *posts = [HNPost parsedPostsFromHTML:html FNID:&fnid];
-                [[HNManager sharedManager] setUserSubmissionFNID:fnid];
+                [[HNManager sharedManager] setUserSubmissionUrlAddition:fnid];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     completion(posts);
                 });
