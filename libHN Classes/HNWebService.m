@@ -259,12 +259,23 @@
             // Now attempt part 3
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
             if (html) {
-                HNUser *user = [HNUser userFromHTML:html];
-                NSHTTPCookie *Cookie = [HNManager getHNCookie];
+                HNUser *hnUser;
+                NSHTTPCookie *Cookie;
+                if ([html rangeOfString:@"We've limited requests for this url."].location == NSNotFound) {
+                    hnUser = [HNUser userFromHTML:html];
+                }
+                else {
+                    hnUser = [[HNUser alloc] init];
+                    hnUser.Username = user;
+                    hnUser.Karma = 0;
+                }
+                
+                Cookie = [HNManager getHNCookie];
+                
                 if (user) {
                     // Finally return the user we've been looking for
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        completion(user, Cookie);
+                        completion(hnUser, Cookie);
                     });
                 }
                 else {
@@ -642,6 +653,13 @@
 }
 
 
+- (void)cancelAllRequests {
+    for (HNOperation *operation in self.HNQueue.operations) {
+        [operation cancel];
+    }
+}
+
+
 @end
 
 
@@ -687,8 +705,9 @@
 #pragma mark - URL Request Building
 +(NSMutableURLRequest *)newGetRequestForURL:(NSURL *)url cookie:(NSHTTPCookie *)cookie {
     NSMutableURLRequest *Request = [[NSMutableURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10];
-    [Request setHTTPShouldHandleCookies:YES];
+    [Request setHTTPShouldHandleCookies:NO];
     [Request setHTTPMethod:@"GET"];
+    [Request setAllHTTPHeaderFields:@{}];
     
     if (cookie) {
         NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:@[cookie]];
@@ -706,6 +725,7 @@
     [Request setHTTPBody:bodyData];
     [Request setHTTPShouldHandleCookies:YES];
     [Request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+    [Request setAllHTTPHeaderFields:@{}];
     
     if (cookie) {
         NSDictionary *headers = [NSHTTPCookie requestHeaderFieldsWithCookies:@[cookie]];

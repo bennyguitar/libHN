@@ -61,6 +61,9 @@ static HNManager * _sharedManager = nil;
         else {
             self.SessionCookie = nil;
         }
+        
+        // Post Notification
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DidLoginOrOut" object:nil];
     }];
 }
 
@@ -84,6 +87,9 @@ static HNManager * _sharedManager = nil;
         if (user && cookie) {
             // Set Cookie & User
             [self setCookie:cookie user:user];
+            
+            // Post Notification
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DidLoginOrOut" object:nil];
 
             // Pass user on through
             completion(user);
@@ -102,6 +108,8 @@ static HNManager * _sharedManager = nil;
     self.SessionCookie = nil;
     self.SessionUser = nil;
     
+    // Post Notification
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DidLoginOrOut" object:nil];
 }
 
 - (void)loadPostsWithFilter:(PostFilterType)filter completion:(GetPostsCompletion)completion {
@@ -193,6 +201,22 @@ static HNManager * _sharedManager = nil;
 
 - (void)setMarkAsReadForPost:(HNPost *)post {
     [self.MarkAsReadDictionary setObject:@YES forKey:post.PostId];
+}
+
+#pragma mark - Voted On Dictionary
+- (BOOL)hasVotedOnObject:(id)hnObject {
+    NSString *votedOnId = [hnObject isKindOfClass:[HNPost class]] ? [(HNPost *)hnObject PostId] : [(HNComment *)hnObject CommentId];
+    return self.VotedOnDictionary[votedOnId] ? YES : NO;
+}
+
+- (void)addHNObjectToVotedOnDictionary:(id)hnObject direction:(VoteDirection)direction {
+    NSString *votedOnId = [hnObject isKindOfClass:[HNPost class]] ? [(HNPost *)hnObject PostId] : [(HNComment *)hnObject CommentId];
+    [self.VotedOnDictionary setObject:@(direction) forKey:votedOnId];
+}
+
+#pragma mark - Cancel Requests
+- (void)cancelAllRequests {
+    [self.Service cancelAllRequests];
 }
 
 @end
