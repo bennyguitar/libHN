@@ -18,6 +18,11 @@
     
     // Scan through components and build posts
     for (int xx = 1; xx < htmlComponents.count; xx++) {
+        // If it's Dead - move past it
+        if ([htmlComponents[xx] rangeOfString:@"<td class=\"title\"> [dead] <a"].location != NSNotFound) {
+            continue;
+        }
+        
         // Create new Post
         HNPost *newPost = [[HNPost alloc] init];
         
@@ -34,7 +39,7 @@
         NSString *upvoteString = @"";
         
         // Scan for Upvotes
-        if ([htmlComponents[xx] rangeOfString:@"grayarrow.gif"].location != NSNotFound) {
+        if ([htmlComponents[xx] rangeOfString:@"dir=up"].location != NSNotFound) {
             [scanner scanUpToString:@"href=\"" intoString:&trash];
             [scanner scanString:@"href=\"" intoString:&trash];
             [scanner scanUpToString:@"whence" intoString:&upvoteString];
@@ -62,12 +67,12 @@
         
         // Scan Author
         [scanner scanUpToString:@"<a href=\"user?id=" intoString:&trash];
-        [scanner scanUpToString:@">" intoString:&trash];
-        [scanner scanString:@">" intoString:&trash];
-        [scanner scanUpToString:@"</a> " intoString:&author];
+        [scanner scanString:@"<a href=\"user?id=" intoString:&trash];
+        [scanner scanUpToString:@"\"" intoString:&author];
         newPost.Username = author;
         
         // Scan Time Ago
+        [scanner scanUpToString:@"</a> " intoString:&trash];
         [scanner scanString:@"</a> " intoString:&trash];
         [scanner scanUpToString:@"ago" intoString:&hoursAgo];
         hoursAgo = [hoursAgo stringByAppendingString:@"ago"];
