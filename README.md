@@ -76,12 +76,12 @@ And here's how to use this:
 }];
 ```
 
-**loadPostsWithFNID**
+**loadPostsWithUrlAddition**
 
 Now that you've gotten the first set of posts, use this method to keep retrieving posts in that Filter. The FNID parameter is mostly taken care of with the <code>postFNID</code> property of the HNManager. If you wanted to do something custom, you could pass in a string of your choosing here, but I recommend sticking with the default postFNID property. Every time you load posts with any of these two methods, the postFNID parameter is updated on the sharedManager.
 
 ```objc
-[[HNManager sharedManager] loadPostsWithFNID:[[HNManager sharedManager] postFNID] completion:(NSArray *posts){
+[[HNManager sharedManager] loadPostsWithUrlAddition:[[HNManager sharedManager] postUrlAddition] completion:(NSArray *posts){
   if (posts) {
     // Posts were successfuly retrieved
   }
@@ -340,7 +340,7 @@ Fetching posts for a user is kind of funky like fetching posts for the homepage 
 }];
 
 // Fetch posts 31 - n
-[[HNManager sharedManager] loadPostsWithFNID:[[HNManager sharedManager] userSubmissionFNID] completion:(NSArray *posts){
+[[HNManager sharedManager] loadPostsWithUrlAddition:[[HNManager sharedManager] userSubmissionUrlAddition] completion:(NSArray *posts){
   if (posts) {
     // Posts were successfuly retrieved
   }
