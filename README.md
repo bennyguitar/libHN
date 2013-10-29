@@ -51,7 +51,7 @@ Add the code snippet, <code>[[HNManager sharedManager] startSession]</code>, to 
 
 Because of the way HackerNews is set up, there are two methods for getting posts. The first one <code>loadPostsWithFilter:completion:</code>, is your beginning method to retrieving posts based on a filter. So if you go to the [HN homepage](https://news.ycombinator.com/) this is what you'd get if you call this method and use <code>PostFilterTypeTop</code> as the PostFilterType parameter.
 
-If you notice on the homepage, at the very bottom, there's a "More" button. Click that then look at the URL Bar. Notice the funky string that looks like this: "fnid=kS3LAcKvtXPC85KnoQszPW" at the end of the URL? HackerNews works on assigning an fnid, or basically a SessionKey, to determine what page you are going to and the authenticity of its request/response. This is used for every action on the site except for getting the first 25 links of any post type. This is where the second method comes in, <code>loadPostsWithFNID:completion:</code>, which takes in an FNID string to determine what posts should come next.
+If you notice on the homepage, at the very bottom, there's a "More" button. Click that then look at the URL Bar. Notice the funky string that looks like this: "fnid=kS3LAcKvtXPC85KnoQszPW" at the end of the URL? HackerNews works on assigning an fnid, or basically a SessionKey, to determine what page you are going to and the authenticity of its request/response. This is used for every action on the site except for getting the first 30 links of any post type. This is where the second method comes in, <code>loadPostsWithUrlAddition:completion:</code>, which takes in a Url Addition string to determine what posts should come next.
 
 **loadPostsWithFilter**
 
@@ -78,7 +78,7 @@ And here's how to use this:
 
 **loadPostsWithUrlAddition**
 
-Now that you've gotten the first set of posts, use this method to keep retrieving posts in that Filter. The FNID parameter is mostly taken care of with the <code>postFNID</code> property of the HNManager. If you wanted to do something custom, you could pass in a string of your choosing here, but I recommend sticking with the default postFNID property. Every time you load posts with any of these two methods, the postFNID parameter is updated on the sharedManager.
+Now that you've gotten the first set of posts, use this method to keep retrieving posts in that Filter. The FNID parameter is mostly taken care of with the <code>postUrlAddition</code> property of the HNManager. If you wanted to do something custom, you could pass in a string of your choosing here, but I recommend sticking with the default postUrlAddition property. Every time you load posts with any of these two methods, the postUrlAddition parameter is updated on the sharedManager.
 
 ```objc
 [[HNManager sharedManager] loadPostsWithUrlAddition:[[HNManager sharedManager] postUrlAddition] completion:(NSArray *posts){
@@ -326,7 +326,7 @@ There are a couple considerations to take when voting on a post. For a **Post**,
 
 ## Fetching all submissions for a User
 
-Fetching posts for a user is kind of funky like fetching posts for the homepage based on a filter. The first 30 posts a user has can be achieved by navigating to the site like this: [https://news.ycombinator.com/submitted?id=pg](https://news.ycombinator.com/submitted?id=pg), but if you want any posts after this (assuming they have more than 30), you have to use an FNID again. For this reason, we're going to reuse a method from earlier to get any posts after the initial 30 and save the FNID as a property under HNManager called <code>userSubmissionFNID</code>. Here's how you'd use this:
+Fetching posts for a user is kind of funky like fetching posts for the homepage based on a filter. The first 30 posts a user has can be achieved by navigating to the site like this: [https://news.ycombinator.com/submitted?id=pg](https://news.ycombinator.com/submitted?id=pg), but if you want any posts after this (assuming they have more than 30), you have to use an FNID again. For this reason, we're going to reuse a method from earlier to get any posts after the initial 30 and save the FNID as a property under HNManager called <code>userSubmissionUrlAddition</code>. Here's how you'd use this:
 
 ```objc
 // Fetch the first 30 posts for a User
