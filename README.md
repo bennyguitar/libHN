@@ -416,7 +416,6 @@ Well basically, if you've dug in to the innards of how this works, you will have
 
 I'm thinking of adding these features as things go along, but for v0.1, I wanted a bare-bones HN specific library.
 
-* Mark As Read - use a dictionary and defaults to save PostId's so you can display to the user what they have/haven't read before.
 * Editing A User - save their about/email basically.
 
 ---------------------
@@ -425,7 +424,7 @@ I'm thinking of adding these features as things go along, but for v0.1, I wanted
 
 Here's a list of iOS/Mac apps that use libHN to provide sweet functionality. Use this library in your app? Open an issue and I'll add it to the list here:
 
-* [News/YC](https://itunes.apple.com/us/app/news-yc/id592893508?mt=8)
+* [News/YC](https://itunes.apple.com/us/app/news-yc/id592893508?mt=8) -- also on [GitHub](https://github.com/bennyguitar/News-YC---iPhone)
 
 ---------------------
 
