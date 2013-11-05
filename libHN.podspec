@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.author       = { "Ben Gordon" => "brgordon@ua.edu" }
   s.ios.deployment_target = '6.0'
   s.osx.deployment_target = '10.8'
-  s.source       = { :git => "https://github.com/bennyguitar/libHN.git", :commit => "2715ba" }
+  s.source       = { :git => "https://github.com/bennyguitar/libHN.git", :tag => "1.0.0" }
   s.source_files  = 'libHN\ Classes/*.{h,m}'
   s.public_header_files = 'libHN\ Classes/*.h'
 end
