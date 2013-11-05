@@ -124,7 +124,7 @@ typedef NS_ENUM(NSInteger, PostType) {
 
 ## Fetching Comments
 
-There's only one method to load comments, and naturally, it follows from loading the Posts. After you load your Posts, you can pass one in to the following method to return an array of <code>HNComment</code> objects. If you go to an AskHN post, you'll notice that the text is inline with the rest of the comments (separated by a text area for a reply), so I decided to include that self-post as the first comment in the returned array. You can tell what this is by using the <code>Type</code> property of the HNComment. The same goes for an HNJobs post. Sometimes, a Jobs post will be a self-post to HN, instead of an external link, so you can capture this data in the exact same way as a regular comment. If the Type == CommentTypeJobs, then you know you have a self jobs post.
+There's only one method to load comments, and naturally, it follows from loading the Posts. After you load your Posts, you can pass one in to the following method to return an array of <code>HNComment</code> objects. If you go to an AskHN post, you'll notice that the text is inline with the rest of the comments (separated by a text area for a reply), so I decided to include that self-post as the first comment in the returned array. You can tell what this is by using the <code>Type</code> property of the HNComment. The same goes for an HNJobs post. Sometimes, a Jobs post will be a self-post to HN, instead of an external link, so you can capture this data in the exact same way as a regular comment. If the Type == HNCommentTypeJobs, then you know you have a self jobs post.
 
 The main reason I did this for AskHN and Jobs was to get any Link data out of the post, and to present things nicely to the user inline with any other comments inside my own personal app.
 
@@ -147,14 +147,14 @@ Similar to the HNPost object, HNComment features a handy class method that gener
 // HNComment.h
 
 // Enums
-typedef NS_ENUM(NSInteger, CommentType) {
-    CommentTypeDefault,
-    CommentTypeAskHN,
-    CommentTypeJobs
+typedef NS_ENUM(NSInteger, HNCommentType) {
+    HNCommentTypeDefault,
+    HNCommentTypeAskHN,
+    HNCommentTypeJobs
 };
 
 // Properties
-@property (nonatomic, assign) CommentType *Type;
+@property (nonatomic, assign) HNCommentType *Type;
 @property (nonatomic, retain) NSString *Text;
 @property (nonatomic, retain) NSString *Username;
 @property (nonatomic, retain) NSString *CommentId;
