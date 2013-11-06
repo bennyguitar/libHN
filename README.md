@@ -35,6 +35,14 @@ Classes to add:
 * HNUser.{h,m}
 * HNCommentLink.{h,m}
 
+**CocoaPods**
+
+If CocoaPods suits your flavor of dependency management, then there is a .podspec here for you as well. Just add the following line to your Podfile, and install your pods to get started with libHN the easy way.
+
+```ruby
+pod 'libHN'
+```
+
 ---------------------
 
 ## HNManager
