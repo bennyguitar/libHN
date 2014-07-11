@@ -31,7 +31,7 @@
     // Set Up
     NSMutableArray *comments = [@[] mutableCopy];
     NSString *trash = @"";
-    NSArray *htmlComponents = [html componentsSeparatedByString:@"<tr><td><table border=0><tr><td><img src=\"s.gif\""];
+    NSArray *htmlComponents = [html componentsSeparatedByString:@"<tr><td><table border=\"0\"><tr><td><img src=\"s.gif\""];
     
     if (post.Type == PostTypeAskHN) {
         // Grab AskHN Post
@@ -106,7 +106,7 @@
         
         
         // Get Comment Level
-        [scanner scanBetweenString:@"height=1 width=" andString:@">" intoString:&level];
+        [scanner scanBetweenString:@"height=\"1\" width=\"" andString:@"\">" intoString:&level];
         newComment.Level = [level intValue] / 40;
         
         // If Logged In - Grab Voting Strings

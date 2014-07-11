@@ -28,7 +28,7 @@
 #pragma mark - Parse Posts
 + (NSArray *)parsedPostsFromHTML:(NSString *)html FNID:(NSString *__autoreleasing *)fnid {
     // Set up
-    NSArray *htmlComponents = [html componentsSeparatedByString:@"<tr><td align=right valign=top class=\"title\">"];
+    NSArray *htmlComponents = [html componentsSeparatedByString:@"<tr><td align=\"right\" valign=\"top\" class=\"title\">"];
     NSMutableArray *postArray = [NSMutableArray array];
     
     // Scan through components and build posts
@@ -68,7 +68,7 @@
         newPost.Title = title;
         
         // Scan Points
-        [scanner scanBetweenString:@"<span id=score_" andString:@">" intoString:&trash];
+        [scanner scanBetweenString:@"<span id=\"score_" andString:@"\">" intoString:&trash];
         [scanner scanBetweenString:@">" andString:@" point" intoString:&points];
         newPost.Points = [points intValue];
         
@@ -111,7 +111,7 @@
                 newPost.Type = PostTypeDefault;
             }
         }
-
+        
         
         // Grab FNID if last
         if (xx == htmlComponents.count - 1) {
@@ -138,7 +138,7 @@
             urlDomain = [urlDomain substringFromIndex:4];
         }
     }
-
+    
     return urlDomain;
 }
 
