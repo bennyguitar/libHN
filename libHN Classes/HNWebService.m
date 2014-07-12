@@ -475,7 +475,7 @@
                 
                 if (hmac.length > 0) {
                     // Create BodyData
-                    NSString *bodyString = [[NSString stringWithFormat:@"fnid=%@&text=%@", fnid, text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                    NSString *bodyString = [[NSString stringWithFormat:@"hmac=%@&text=%@", hmac, text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
                     
                     // Create next Request
