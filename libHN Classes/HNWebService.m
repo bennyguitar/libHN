@@ -175,56 +175,10 @@
 
 #pragma mark - Login
 - (void)loginWithUsername:(NSString *)user pass:(NSString *)pass completion:(LoginCompletion)completion {
-    // Login is a three-part process
-    // 1. go to https://news.ycombinator.com/newslogin?whence=%6e%65%77%73 and grab the fnid for the login submit button
-    // 2. pass this info in to that url via a POST request
-    // 3. build a User object by going to that specific URL as well
-    
-    
-    // First things first, let's grab that FNID
-    NSString *urlPath = [NSString stringWithFormat:@"%@%@", kBaseURLAddress, @"newslogin?whence=%6e%65%77%73"];
-    
-    // Build the operation
-    HNOperation *operation = [[HNOperation alloc] init];
-    __block HNOperation *blockOperation = operation;
-    [operation setUrlPath:urlPath data:nil cookie:nil completion:^{
-        if (blockOperation.responseData) {
-            NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
-            if (html) {
-                NSString *fnid = @"", *trash = @"";
-                NSScanner *fnidScan = [NSScanner scannerWithString:html];
-                [fnidScan scanUpToString:@"name=\"fnid\" value=\"" intoString:&trash];
-                [fnidScan scanString:@"name=\"fnid\" value=\"" intoString:&trash];
-                [fnidScan scanUpToString:@"\"" intoString:&fnid];
-                
-                if (fnid.length > 0) {
-                    // We grabbed the fnid, now attempt part 2
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self part2LoginWithFNID:fnid user:user pass:pass completion:completion];
-                    });
-                }
-                else {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        completion(nil,nil);
-                    });
-                }
-            }
-        }
-        else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completion(nil,nil);
-            });
-        }
-    }];
-    [self.HNQueue addOperation:operation];
-}
-
-- (void)part2LoginWithFNID:(NSString *)fnid user:(NSString *)user pass:(NSString *)pass completion:(LoginCompletion)completion {
-    // Now let's attempt to login
-    NSString *urlPath = [NSString stringWithFormat:@"%@y", kBaseURLAddress];
+    NSString *urlPath = [NSString stringWithFormat:@"%@login", kBaseURLAddress];
     
     // Build the body data
-    NSString *bodyString = [NSString stringWithFormat:@"u=%@&p=%@&fnid=%@",user,pass,fnid];
+    NSString *bodyString = [NSString stringWithFormat:@"acct=%@&pw=%@", user, pass];
     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
     
     // Start the Operation
@@ -232,8 +186,8 @@
     __block HNOperation *blockOperation = operation;
     [operation setUrlPath:urlPath data:bodyData cookie:nil completion:^{
         if (blockOperation.responseData) {
-            // Now attempt part 3
-            NSString *responseString = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
+            NSString *responseString = [[NSString alloc] initWithData:blockOperation.responseData
+                                                             encoding:NSUTF8StringEncoding];
             if (responseString) {
                 if ([responseString rangeOfString:@">Bad login."].location == NSNotFound && [responseString rangeOfString:@"Unknown or expired link."].location == NSNotFound) {
                     
@@ -267,6 +221,7 @@
             });
         }
     }];
+    
     [self.HNQueue addOperation:operation];
 }
 
