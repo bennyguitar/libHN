@@ -538,7 +538,7 @@
     [operation setUrlPath:urlPath data:nil cookie:[[HNManager sharedManager] SessionCookie] completion:^{
         if (blockOperation.responseData) {
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
-            if (![html containsString:[NSString stringWithFormat:@"for=%@", uniqueId]]) {
+            if ([html rangeOfString:[NSString stringWithFormat:@"for=%@", uniqueId]].location == NSNotFound) {
                 // It worked!
                 dispatch_async(dispatch_get_main_queue(), ^{
                     completion(YES);
