@@ -367,7 +367,7 @@
                     
                     // Create next Request
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self part2SubmitPostOrCommentWithData:bodyData completion:completion];
+                        [self part2SubmitPostOrCommentWithData:bodyData pathComponent:@"r" completion:completion];
                     });
                 }
                 else {
@@ -422,20 +422,29 @@
         if (blockOperation.responseData) {
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
             if ([html rangeOfString:@"textarea"].location != NSNotFound) {
-                NSString *trash = @"", *hmac = @"";
+                NSString *trash = @"", *hmac = @"", *parent, *whence;
                 NSScanner *scanner = [NSScanner scannerWithString:html];
+                
+                [scanner scanUpToString:@"name=\"parent\" value=\"" intoString:&trash];
+                [scanner scanString:@"name=\"parent\" value=\"" intoString:&trash];
+                [scanner scanUpToString:@"\"" intoString:&parent];
+                
+                [scanner scanUpToString:@"name=\"whence\" value=\"" intoString:&trash];
+                [scanner scanString:@"name=\"whence\" value=\"" intoString:&trash];
+                [scanner scanUpToString:@"\"" intoString:&whence];
+                
                 [scanner scanUpToString:@"name=\"hmac\" value=\"" intoString:&trash];
                 [scanner scanString:@"name=\"hmac\" value=\"" intoString:&trash];
                 [scanner scanUpToString:@"\"" intoString:&hmac];
                 
                 if (hmac.length > 0) {
                     // Create BodyData
-                    NSString *bodyString = [[NSString stringWithFormat:@"hmac=%@&text=%@", hmac, text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                    NSString *bodyString = [[NSString stringWithFormat:@"hmac=%@&text=%@&parent=%@&whence=%@", hmac, text, parent, whence] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
                     
                     // Create next Request
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        [self part2SubmitPostOrCommentWithData:bodyData completion:completion];
+                        [self part2SubmitPostOrCommentWithData:bodyData pathComponent:@"comment" completion:completion];
                     });
                 }
                 else {
@@ -461,9 +470,9 @@
 
 
 #pragma mark - Part 2 of submitting a Comment/Post
-- (void)part2SubmitPostOrCommentWithData:(NSData *)bodyData completion:(BooleanSuccessBlock)completion {
+- (void)part2SubmitPostOrCommentWithData:(NSData *)bodyData pathComponent:(NSString *)pathComponent completion:(BooleanSuccessBlock)completion {
     // Make the url path
-    NSString *urlPath = [NSString stringWithFormat:@"%@r", kBaseURLAddress];
+    NSString *urlPath = [NSString stringWithFormat:@"%@%@", kBaseURLAddress, pathComponent];
     
     // Start the Operation
     HNOperation *operation = [[HNOperation alloc] init];
