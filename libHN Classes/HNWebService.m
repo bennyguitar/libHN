@@ -508,6 +508,7 @@
     
     // Get urlAddition
     NSString *urlAddition;
+    NSString *uniqueId;
     if ([hnObject isKindOfClass:[HNPost class]]) {
         if (direction == VoteDirectionDown) {
             // You can't downvote a Post
@@ -515,9 +516,11 @@
             return;
         }
         urlAddition = [(HNPost *)hnObject UpvoteURLAddition];
+        uniqueId = [(HNPost *)hnObject PostId];
     }
     else {
         urlAddition = direction == VoteDirectionUp ? [(HNComment *)hnObject UpvoteURLAddition] : [(HNComment *)hnObject DownvoteURLAddition];
+        uniqueId = [(HNComment *)hnObject CommentId];
     }
     
     // if urlAddition is nil, return
@@ -535,7 +538,7 @@
     [operation setUrlPath:urlPath data:nil cookie:[[HNManager sharedManager] SessionCookie] completion:^{
         if (blockOperation.responseData) {
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
-            if (html.length == 0) {
+            if (![html containsString:[NSString stringWithFormat:@"for=%@", uniqueId]]) {
                 // It worked!
                 dispatch_async(dispatch_get_main_queue(), ^{
                     completion(YES);
