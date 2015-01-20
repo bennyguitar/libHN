@@ -68,7 +68,7 @@
         newPost.Title = title;
         
         // Scan Points
-        [scanner scanBetweenString:@"<span id=\"score_" andString:@">" intoString:&trash];
+        [scanner scanBetweenString:@"<span class=\"score\" id=\"score_" andString:@">" intoString:&trash];
         [scanner scanBetweenString:@">" andString:@" " intoString:&points];
         newPost.Points = [points intValue];
         
