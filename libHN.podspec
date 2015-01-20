@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "libHN"
-  s.version      = "3.0.1"
+  s.version      = "3.0.2"
   s.summary      = "The definitive Objective-C library for adding HackerNews to your iOS/Mac app."
   s.description  = <<-DESC
                    The definitive Cocoa framework for adding HackerNews to your iOS/Mac app.
