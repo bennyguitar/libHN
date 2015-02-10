@@ -52,7 +52,7 @@
         [scanner scanBetweenString:@"by <a href=\"user?id=" andString:@"\">" intoString:&user];
         
         // Get Time Created String
-        [scanner scanBetweenString:@"</a> " andString:@"ago" intoString:&timeAgo];
+        [scanner scanBetweenString:@">" andString:@"</a>" intoString:&timeAgo];
         timeAgo = [timeAgo stringByAppendingString:@"ago"];
         
         // Get Text
@@ -133,16 +133,16 @@
         newComment.Username = user.length > 0 ? user : @"[deleted]";
         
         // Get Date/Time Label
-        [scanner scanBetweenString:@"</a> " andString:@" |" intoString:&timeAgo];
+        [scanner scanBetweenString:@"> " andString:@"</a>" intoString:&timeAgo];
         newComment.TimeCreatedString = timeAgo;
         
         // Get Comment Text
-        [scanner scanBetweenString:@"<font color=" andString:@">" intoString:&trash];
+        [scanner scanBetweenString:@"<span class=\"comment\"><font color=" andString:@">" intoString:&trash];
         [scanner scanBetweenString:@">" andString:@"</font>" intoString:&text];
         newComment.Text = [HNUtilities stringByReplacingHTMLEntitiesInText:text];
         
         // Get CommentId
-        [scanner scanBetweenString:@"reply?id=" andString:@"&" intoString:&commentId];
+        [scanner scanBetweenString:@"<a href=\"item?id=" andString:@"\">" intoString:&commentId];
         newComment.CommentId = commentId;
         
         // Get Reply URL Addition
