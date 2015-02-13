@@ -55,7 +55,7 @@
         
         // Scan for Upvotes
         if ([htmlComponents[xx] rangeOfString:@"votearrow"].location != NSNotFound) {
-            [scanner scanBetweenString:@"href=\"" andString:@"whence" intoString:&upvoteString];
+            [scanner scanBetweenString:@"href=\"" andString:@"\">" intoString:&upvoteString];
             newPost.UpvoteURLAddition = upvoteString;
         }
         
