@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '6.0'
   s.osx.deployment_target = '10.8'
   s.source       = { :git => "https://github.com/bennyguitar/libHN.git", :tag => s.version }
-  s.source_files  = 'libHN\ Classes/*.{h,m}'
-  s.public_header_files = 'libHN\ Classes/*.h'
+  s.source_files  = 'Source/*.{h,m,json}'
+  s.public_header_files = 'Source/*.h'
   s.requires_arc = true
 end
