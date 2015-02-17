@@ -1,0 +1,52 @@
+{
+	"Post":{
+		"CS":"<tr><td align=\"right\" valign=\"top\" class=\"title\">",
+		"V":{
+			"R":"votearrow",
+			"S":"href=\"",
+			"E":"&"
+		},
+		"A":[
+			{
+				"S":"href=\"",
+				"E":"\"",
+				"I":"UrlString"
+			},
+			{
+				"S":">",
+				"E":"<",
+				"I":"Title"
+			},
+			{
+				"S":"score_",
+				"E":"\"",
+				"I":"TRASH"
+			},
+			{
+				"S":">",
+				"E":"</span>",
+				"I":"Points"
+			},
+			{
+				"S":"<a href=\"user?id=",
+				"E":"\"",
+				"I":"Username"
+			},
+			{
+				"S":"<a href=\"item?id=",
+				"E":"\"",
+				"I":"PostId"
+			},
+			{
+				"S":">",
+				"E":"</",
+				"I":"Time"
+			},
+			{
+				"S":"\">",
+				"E":"</a>",
+				"I":"Comments"
+			}
+		]
+	}
+}
