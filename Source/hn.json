@@ -50,7 +50,7 @@
 		]
 	},
 	"Comment":{
-		"CS":"<td><img src=\"s.gif\"",
+		"CS":"<img src=\"s.gif\"",
 		"U":{
 			"R":"dir=up",
 			"S":"href=\"",
