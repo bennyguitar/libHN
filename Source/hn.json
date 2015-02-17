@@ -48,5 +48,83 @@
 				"I":"Comments"
 			}
 		]
+	},
+	"Comment":{
+		"CS":"<td><img src=\"s.gif\"",
+		"U":{
+			"R":"dir=up",
+			"S":"href=\"",
+			"E":"&"
+		},
+		"D":{
+			"R":"dir=down",
+			"S":"href=\"",
+			"E":"&"
+		},
+		"L":{
+			"S":"height=\"1\" width=\"",
+			"E":"\">",
+			"I":"Level"
+		},
+		"ASK":[
+			{
+				"S":"<a href=\"item?id=",
+				"E":"\"",
+				"I":"CommentId"
+			},
+			{
+				"S":">",
+				"E":"<",
+				"I":"Title"
+			},
+			{
+				"S":"user?id=",
+				"E":"\"",
+				"I":"Username"
+			},
+			{
+				"S":"\">",
+				"E":"<",
+				"I":"Time"
+			},
+			{
+				"S":"/tr><tr><td></td><td>",
+				"E":"</tr>",
+				"I":"Text"
+			}
+		],
+		"JOBS":[
+			{
+				"S":"</tr><tr><td></td><td>",
+				"E":"</td>",
+				"I":"Text"
+			}
+		],
+		"REG":[
+			{
+				"S":"user?id=",
+				"E":"\">",
+				"I":"Username"
+			},
+			{
+				"S":"item?id=",
+				"E":"\"",
+				"I":"CommentId"
+			},
+			{
+				"S":">",
+				"E":"<",
+				"I":"Time"
+			},
+			{
+				"S":"<span class=\"comment\">",
+				"E":"<",
+				"I":"Text"
+			},
+			{
+				"S":"href=\"",
+				"E":"\"",
+				"I":"ReplyUrl"
+			}]
 	}
 }
