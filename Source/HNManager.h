@@ -24,6 +24,8 @@
 
 #import "HNWebService.h"
 
+extern NSString * const kHNShouldReloadDataFromConfiguration;
+
 @interface HNManager : NSObject
 
 #pragma mark - Blocks
@@ -37,6 +39,7 @@ typedef void (^SuccessfulLoginBlock) (HNUser *user);
 @property (nonatomic, retain) HNUser *SessionUser;
 @property (nonatomic, retain) NSMutableDictionary *MarkAsReadDictionary;
 @property (nonatomic, retain) NSMutableDictionary *VotedOnDictionary;
+@property (nonatomic, retain) NSDictionary *JSONConfiguration;
 
 #pragma mark - Singleton Manager
 /**
