@@ -125,7 +125,7 @@
             }
         }
         
-        for (NSDictionary *dict in commentDict[@"ASK"]) {
+        for (NSDictionary *dict in commentDict[@"REG"]) {
             NSString *new = @"";
             BOOL isTrash = [dict[@"I"] isEqualToString:@"TRASH"];
             [scanner scanBetweenString:dict[@"S"] andString:dict[@"E"] intoString:isTrash ? &trash : &new];
@@ -136,7 +136,7 @@
         
         newComment.CommentId = cDict[@"CommentId"] ? cDict[@"CommentId"] : @"";
         newComment.Username = cDict[@"Username"] ? cDict[@"Username"] : @"";
-        newComment.Text = cDict[@"Text"] ? cDict[@"Text"] : @"";
+        newComment.Text = [HNUtilities stringByReplacingHTMLEntitiesInText:(cDict[@"Text"] ? cDict[@"Text"] : @"")];
         newComment.TimeCreatedString = cDict[@"Time"] ? cDict[@"Time"] : @"";
         newComment.ReplyURLString = cDict[@"ReplyUrl"] ? cDict[@"ReplyUrl"] : @"";
         

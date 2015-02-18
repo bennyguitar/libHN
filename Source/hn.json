@@ -4,7 +4,7 @@
 		"V":{
 			"R":"votearrow",
 			"S":"href=\"",
-			"E":"&"
+			"E":"\""
 		},
 		"A":[
 			{
@@ -43,23 +43,33 @@
 				"I":"Time"
 			},
 			{
-				"S":"\">",
-				"E":"</a>",
+				"S":"a>",
+				"E":"item?id",
+				"I":"TRASH"
+			},
+			{
+				"S":"=",
+				"E":"\"",
+				"I":"TRASH"
+			},
+			{
+				"S":">",
+				"E":"<",
 				"I":"Comments"
 			}
 		]
 	},
 	"Comment":{
-		"CS":"s.gif",
+		"CS":"<tr><td><img src=\"s.gif\"",
 		"U":{
 			"R":"dir=up",
 			"S":"href=\"",
-			"E":"&"
+			"E":"\">"
 		},
 		"D":{
 			"R":"dir=down",
 			"S":"href=\"",
-			"E":"&"
+			"E":"\">"
 		},
 		"L":{
 			"S":"height=\"1\" width=\"",
@@ -117,8 +127,13 @@
 				"I":"Time"
 			},
 			{
-				"S":"<span class=\"comment\">",
-				"E":"<",
+				"S":"<span class=\"comment\"><font color=",
+				"E":"\"",
+				"I":"TRASH"
+			},
+			{
+				"S":">",
+				"E":"</font>",
 				"I":"Text"
 			},
 			{

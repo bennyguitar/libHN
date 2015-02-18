@@ -286,7 +286,6 @@ static HNManager * _sharedManager = nil;
             self.JSONConfiguration = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:kHNShouldReloadDataFromConfiguration object:nil];
         }
-        NSLog(@"%@", data);
     }];
 }
 
