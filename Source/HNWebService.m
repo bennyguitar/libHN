@@ -371,11 +371,14 @@
                 if (partString.length > 0) {
                     // Create BodyData
                     NSString *bodyString;
+                    NSString *u = submitDict[@"Url"];
+                    NSString *t = submitDict[@"Title"];
+                    NSString *x = submitDict[@"Text"];
                     if (link.length > 0) {
-                        bodyString = [[NSString stringWithFormat:@"%@url=%@&title=%@&text=", partString, link, title] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                        bodyString = [[NSString stringWithFormat:@"%@%@=%@&%@=%@&%@=", partString, u, link, t, title, text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                     }
                     else {
-                        bodyString = [[NSString stringWithFormat:@"%@url=&title=%@&text=%@", partString, title, text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                        bodyString = [[NSString stringWithFormat:@"%@%@=&%@=%@&%@=%@", partString, u, t, title, x, text] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                     }
                     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
                     

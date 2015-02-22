@@ -165,7 +165,9 @@
 				"E":"\">",
 				"I":"fnid"
 			}
-		]
+		],
+		"Url":"url",
+		"Title":"title",
+		"Text":"text"
 	}
-
 }
