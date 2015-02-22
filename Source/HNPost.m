@@ -32,7 +32,7 @@
     NSArray *htmlComponents;
     NSMutableArray *postArray = [NSMutableArray array];
     NSDictionary *jsonDict = [[HNManager sharedManager] JSONConfiguration];
-    NSDictionary *posts = jsonDict[@"Post"] ? jsonDict[@"Post"] : nil;
+    NSDictionary *posts = jsonDict && jsonDict[@"Post"] ? jsonDict[@"Post"] : nil;
     if (posts) {
         htmlComponents = posts[@"CS"] ? [html componentsSeparatedByString:posts[@"CS"]] : nil;
     }
@@ -58,13 +58,13 @@
         NSString *upvoteString = @"";
         
         // Scan for Upvotes
-        if ([htmlComponents[xx] rangeOfString:posts[@"V"][@"R"]].location != NSNotFound) {
-            [scanner scanBetweenString:posts[@"V"][@"S"] andString:posts[@"V"][@"E"] intoString:&upvoteString];
+        if ([htmlComponents[xx] rangeOfString:posts[@"Vote"][@"R"]].location != NSNotFound) {
+            [scanner scanBetweenString:posts[@"Vote"][@"S"] andString:posts[@"Vote"][@"E"] intoString:&upvoteString];
             newPost.UpvoteURLAddition = upvoteString;
         }
         
         // Scan from JSON Configuration
-        for (NSDictionary *part in posts[@"A"]) {
+        for (NSDictionary *part in posts[@"Parts"]) {
             NSString *new = @"";
             BOOL isTrash = [part[@"I"] isEqualToString:@"TRASH"];
             [scanner scanBetweenString:part[@"S"] andString:part[@"E"] intoString:isTrash ? &trash : &new];

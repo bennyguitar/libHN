@@ -276,7 +276,10 @@ static HNManager * _sharedManager = nil;
         jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
     }
     
-    self.JSONConfiguration = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil];
+    if (jsonData) {
+        self.JSONConfiguration = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil];
+    }
+    
     
     [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         if (![data isEqualToData:jsonData]) {

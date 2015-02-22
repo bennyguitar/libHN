@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "libHN"
-  s.version      = "4.0.0"
+  s.version      = "4.0.1"
   s.summary      = "The definitive Objective-C library for adding HackerNews to your iOS/Mac app."
   s.description  = <<-DESC
                    The definitive Cocoa framework for adding HackerNews to your iOS/Mac app.
@@ -14,7 +14,8 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '6.0'
   s.osx.deployment_target = '10.8'
   s.source       = { :git => "https://github.com/bennyguitar/libHN.git", :tag => s.version }
-  s.source_files  = 'Source/*.{h,m,json}'
+  s.source_files  = 'Source/*.{h,m}'
+  s.resources = 'Source/*.json'
   s.public_header_files = 'Source/*.h'
   s.requires_arc = true
 end

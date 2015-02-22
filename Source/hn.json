@@ -1,12 +1,12 @@
 {
 	"Post":{
 		"CS":"<tr><td align=\"right\" valign=\"top\" class=\"title\">",
-		"V":{
+		"Vote":{
 			"R":"votearrow",
 			"S":"href=\"",
 			"E":"\""
 		},
-		"A":[
+		"Parts":[
 			{
 				"S":"href=\"",
 				"E":"\"",
@@ -61,17 +61,17 @@
 	},
 	"Comment":{
 		"CS":"<tr><td><img src=\"s.gif\"",
-		"U":{
+		"Upvote":{
 			"R":"dir=up",
 			"S":"href=\"",
 			"E":"\">"
 		},
-		"D":{
+		"Downvote":{
 			"R":"dir=down",
 			"S":"href=\"",
 			"E":"\">"
 		},
-		"L":{
+		"Level":{
 			"S":"height=\"1\" width=\"",
 			"E":"\">",
 			"I":"Level"
@@ -99,7 +99,7 @@
 			},
 			{
 				"S":"/tr><tr><td></td><td>",
-				"E":"</tr>",
+				"E":"</td>",
 				"I":"Text"
 			}
 		],
@@ -141,5 +141,31 @@
 				"E":"\"",
 				"I":"ReplyUrl"
 			}]
+	},
+	"Reply":{
+		"Action":"comment",
+		"Parts":[
+			{
+				"S":"name=\"parent\" value=\"",
+				"E":"\">",
+				"I":"parent"
+			},
+			{
+				"S":"name=\"hmac\" value=\"",
+				"E":"\">",
+				"I":"hmac"
+			}
+		]
+	},
+	"Submit":{
+		"Action":"r",
+		"Parts":[
+			{
+				"S":"name=\"fnid\" value=\"",
+				"E":"\">",
+				"I":"fnid"
+			}
+		]
 	}
+
 }

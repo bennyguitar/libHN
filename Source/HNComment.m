@@ -33,7 +33,10 @@
     NSMutableArray *comments = [@[] mutableCopy];
     NSString *trash = @"", *upvoteUrl = @"";
     NSDictionary *jsonDict = [[HNManager sharedManager] JSONConfiguration];
-    NSDictionary *commentDict = jsonDict[@"Comment"];
+    NSDictionary *commentDict = jsonDict && jsonDict[@"Comment"] ? jsonDict[@"Comment"] : nil;
+    if (!commentDict) {
+        return @[];
+    }
     NSArray *htmlComponents = [html componentsSeparatedByString:commentDict[@"CS"] ? commentDict[@"CS"] : @""];
     if (!htmlComponents) {
         return @[];
@@ -45,8 +48,8 @@
         NSMutableDictionary *cDict = [NSMutableDictionary new];
         
         // Check for Upvote
-        if ([htmlComponents[0] rangeOfString:commentDict[@"U"][@"R"]].location != NSNotFound) {
-            [scanner scanBetweenString:commentDict[@"U"][@"S"] andString:commentDict[@"U"][@"S"] intoString:&upvoteUrl];
+        if ([htmlComponents[0] rangeOfString:commentDict[@"Upvote"][@"R"]].location != NSNotFound) {
+            [scanner scanBetweenString:commentDict[@"Upvote"][@"S"] andString:commentDict[@"Upvote"][@"S"] intoString:&upvoteUrl];
             upvoteUrl = [upvoteUrl stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
         }
         
@@ -109,18 +112,18 @@
         NSString *level = @"";
         NSMutableDictionary *cDict = [NSMutableDictionary new];
         // Get Comment Level
-        [scanner scanBetweenString:commentDict[@"L"][@"S"] andString:commentDict[@"L"][@"E"] intoString:&level];
+        [scanner scanBetweenString:commentDict[@"Level"][@"S"] andString:commentDict[@"Level"][@"E"] intoString:&level];
         newComment.Level = [level intValue] / 40;
         
         // If Logged In - Grab Voting Strings
-        if ([htmlComponents[xx] rangeOfString:commentDict[@"U"][@"R"]].location != NSNotFound) {
+        if ([htmlComponents[xx] rangeOfString:commentDict[@"Upvote"][@"R"]].location != NSNotFound) {
             // Scan Upvote String
-            [scanner scanBetweenString:commentDict[@"U"][@"S"] andString:commentDict[@"U"][@"E"] intoString:&upvoteString];
+            [scanner scanBetweenString:commentDict[@"Upvote"][@"S"] andString:commentDict[@"Upvote"][@"E"] intoString:&upvoteString];
             newComment.UpvoteURLAddition = [upvoteString stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
             
             // Check for downvote String
-            if ([htmlComponents[xx] rangeOfString:commentDict[@"D"][@"R"]].location != NSNotFound) {
-                [scanner scanBetweenString:commentDict[@"D"][@"S"] andString:commentDict[@"D"][@"E"] intoString:&downvoteString];
+            if ([htmlComponents[xx] rangeOfString:commentDict[@"Downvote"][@"R"]].location != NSNotFound) {
+                [scanner scanBetweenString:commentDict[@"Downvote"][@"S"] andString:commentDict[@"Downvote"][@"E"] intoString:&downvoteString];
                 newComment.DownvoteURLAddition = [downvoteString stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
             }
         }
