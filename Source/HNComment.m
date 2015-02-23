@@ -80,7 +80,7 @@
         NSScanner *scanner = [NSScanner scannerWithString:htmlComponents[0]];
         NSMutableDictionary *cDict = [NSMutableDictionary new];
         
-        for (NSDictionary *dict in commentDict[@"JOB"]) {
+        for (NSDictionary *dict in commentDict[@"JOBS"]) {
             NSString *new = @"";
             BOOL isTrash = [dict[@"I"] isEqualToString:@"TRASH"];
             [scanner scanBetweenString:dict[@"S"] andString:dict[@"E"] intoString:isTrash ? &trash : &new];
