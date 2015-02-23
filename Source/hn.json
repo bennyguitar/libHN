@@ -105,7 +105,7 @@
 		],
 		"JOBS":[
 			{
-				"S":"</tr><tr><td></td><td>",
+				"S":"<tr style=\"height:2px\"></tr><tr><td></td><td>",
 				"E":"</td>",
 				"I":"Text"
 			}
