@@ -56,6 +56,14 @@ pod 'libHN'
 
 The JSON Configuration is a json file that describes how to build a post and comment object from the HTML markup, as well as how to handle replying and submitting new posts as far as the extra info that those web calls need. This JSON file is prebundled with the library, but is also fetched from the internet each time `HNManager` gets initialized. This means that whenever HN changes markup, a simple pull-request to the `hn.json` file should fix the problem across all apps that use this library - without an update to the App Store.
 
+**Notification on Change**
+
+When a new JSON Configuration is fetched from the internet, and it's different than the current one in use by the app, it will save the new configuration and send out an `NSNotification` that anything that uses Posts or Comments should reload itself to use the new configuration. The name of the notification is `kHNShouldReloadDataFromConfiguration`.
+
+```objc
+[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(someSelector) name:kHNShouldReloadDataFromConfiguration object:nil];
+```
+
 **Breakdown**
 
 The `hn.json` configuration contains 4 top-level key/value pairs:
