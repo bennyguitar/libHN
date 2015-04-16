@@ -1,6 +1,6 @@
 {
 	"Post":{
-		"CS":"<tr><td align=\"right\" valign=\"top\" class=\"title\">",
+		"CS":"<td align=\"right\" valign=\"top\" class=\"title\">",
 		"Vote":{
 			"R":"votearrow",
 			"S":"href=\"",
