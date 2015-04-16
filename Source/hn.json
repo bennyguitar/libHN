@@ -60,7 +60,7 @@
 		]
 	},
 	"Comment":{
-		"CS":"<tr><td><img src=\"s.gif\"",
+		"CS":"<td><img src=\"s.gif\"",
 		"Upvote":{
 			"R":"dir=up",
 			"S":"href=\"",
