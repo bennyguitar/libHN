@@ -261,7 +261,7 @@ static HNManager * _sharedManager = nil;
 #pragma mark - Download Configuration
 - (void)downloadAndSetConfiguration {
     NSURL *url = [NSURL URLWithString:@"https://raw.githubusercontent.com/bennyguitar/libHN/master/Source/hn.json"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSMutableURLRequest *request = [[NSURLRequest requestWithURL:url] mutableCopy];
     NSOperationQueue *queue = [NSOperationQueue new];
     NSData *jsonData;
     if (![[NSUserDefaults standardUserDefaults] stringForKey:kHNJSONConfigurationKey]) {
@@ -280,7 +280,7 @@ static HNManager * _sharedManager = nil;
         self.JSONConfiguration = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil];
     }
     
-    
+    request.cachePolicy = NSURLCacheStorageNotAllowed;
     [NSURLConnection sendAsynchronousRequest:request queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         if (![data isEqualToData:jsonData]) {
             NSString *newData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];

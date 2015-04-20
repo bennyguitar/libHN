@@ -161,4 +161,7 @@ typedef void (^SuccessfulLoginBlock) (HNUser *user);
 #pragma mark - Cancel All WebRequests
 - (void)cancelAllRequests;
 
+#pragma mark - Download Configuration
+- (void)downloadAndSetConfiguration;
+
 @end
