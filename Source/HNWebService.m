@@ -178,9 +178,10 @@
 - (void)loginWithUsername:(NSString *)user pass:(NSString *)pass completion:(LoginCompletion)completion {
     // Now let's attempt to login
     NSString *urlPath = [NSString stringWithFormat:@"%@login", kBaseURLAddress];
-    
+    NSString *encodedPass = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)pass, NULL, (CFStringRef)@"!*'();:@&=+$,/?%#[]", kCFStringEncodingUTF8));
+
     // Build the body data
-    NSString *bodyString = [NSString stringWithFormat:@"acct=%@&pw=%@&whence=news",user,pass];
+    NSString *bodyString = [NSString stringWithFormat:@"acct=%@&pw=%@&whence=news",user,encodedPass];
     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
     
     // Start the Operation
