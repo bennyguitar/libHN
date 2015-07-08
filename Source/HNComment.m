@@ -49,7 +49,7 @@
         
         // Check for Upvote
         if ([htmlComponents[0] rangeOfString:commentDict[@"Upvote"][@"R"]].location != NSNotFound) {
-            [scanner scanBetweenString:commentDict[@"Upvote"][@"S"] andString:commentDict[@"Upvote"][@"S"] intoString:&upvoteUrl];
+            [scanner scanBetweenString:commentDict[@"Upvote"][@"S"] andString:commentDict[@"Upvote"][@"E"] intoString:&upvoteUrl];
             upvoteUrl = [upvoteUrl stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
         }
         
@@ -97,13 +97,9 @@
         newComment.Type = HNCommentTypeJobs;
         [comments addObject:newComment];
     }
-    
+
+    // 1st object is garbage.
     for (int xx = 1; xx < htmlComponents.count; xx++) {
-        // 1st and Last object are garbage.
-        if (xx == htmlComponents.count - 1) {
-            break;
-        }
-        
         // Set Up
         NSScanner *scanner = [NSScanner scannerWithString:htmlComponents[xx]];
         HNComment *newComment = [[HNComment alloc] init];
@@ -118,6 +114,7 @@
         // If Logged In - Grab Voting Strings
         if ([htmlComponents[xx] rangeOfString:commentDict[@"Upvote"][@"R"]].location != NSNotFound) {
             // Scan Upvote String
+            [scanner scanBetweenString:commentDict[@"Trash"][@"S"] andString:commentDict[@"Trash"][@"E"] intoString:&trash];
             [scanner scanBetweenString:commentDict[@"Upvote"][@"S"] andString:commentDict[@"Upvote"][@"E"] intoString:&upvoteString];
             newComment.UpvoteURLAddition = [upvoteString stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
             
