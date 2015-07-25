@@ -140,7 +140,12 @@
                "I":"Time"
                },
                {
-               "S":"c00\">",
+               "S":"class=\"comment\">",
+               "E":"class=\"c",
+               "I":"TRASH"
+               },
+               {
+               "S":"\">",
                "E":"<span>",
                "I":"Text"
                },
