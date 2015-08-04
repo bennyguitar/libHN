@@ -424,7 +424,12 @@
     // Get itemId
     NSString *itemId;
     if ([hnObject isKindOfClass:[HNPost class]]) {
-        itemId = [(HNPost *)hnObject PostId];
+        if (![(HNPost *)hnObject replyAction]) {
+            completion(NO);
+        }
+        NSMutableString *data = [[NSString stringWithFormat:@"goto=%@&parent=%@&hmac=%@&%@=", [(HNPost *)hnObject replyGoto], [(HNPost *)hnObject replyParent], [(HNPost *)hnObject replyHmac], [(HNPost *)hnObject replyText]] mutableCopy];
+        [data appendString:[text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        [self part2SubmitPostOrCommentWithData:[data dataUsingEncoding:NSUTF8StringEncoding] pathComponent:[(HNPost *)hnObject replyAction] completion:completion];
     }
     else {
         itemId = [(HNComment *)hnObject CommentId];
