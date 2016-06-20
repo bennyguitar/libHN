@@ -3,12 +3,12 @@
         "CS":"<td align=\"right\" valign=\"top\" class=\"title\">",
         "Vote":{
             "R":"votearrow",
-            "S":"href=\"",
-            "E":"\""
+            "S":"href='",
+            "E":"'"
         },
         "Parts":[
                  {
-                 "S":"href=\"",
+                 "S":"<a href=\"",
                  "E":"\"",
                  "I":"UrlString"
                  },
@@ -60,7 +60,7 @@
                  ]
     },
     "Comment":{
-        "CS":"<tr><td class='ind'><img src=\"s.gif\"",
+        "CS":"<td class='ind'><img src=\"s.gif\"",
         "Reply":{
             "R":"<form method=\"post\"",
             "Parts":[
@@ -236,6 +236,6 @@
                  "E":"</textarea>",
                  "I":"about"
                  },
-                ]
+                 ]
     }
 }
