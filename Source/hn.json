@@ -3,12 +3,12 @@
         "CS":"<td align=\"right\" valign=\"top\" class=\"title\">",
         "Vote":{
             "R":"votearrow",
-            "S":"href=\"",
-            "E":"\""
+            "S":"href='",
+            "E":"'"
         },
         "Parts":[
                  {
-                 "S":"href=\"",
+                 "S":"<a href=\"",
                  "E":"\"",
                  "I":"UrlString"
                  },
@@ -60,7 +60,7 @@
                  ]
     },
     "Comment":{
-        "CS":"<tr><td class='ind'><img src=\"s.gif\"",
+        "CS":"<td class='ind'><img src=\"s.gif\"",
         "Reply":{
             "R":"<form method=\"post\"",
             "Parts":[
@@ -112,23 +112,18 @@
         },
         
         "ASK":[{
-               "S":"<span class=\"deadmark\"></span>",
-               "E":"\"",
-               "I":"TRASH"
-               },
-               {
-               "S":">",
+               "S":"class=\"storylink\">",
                "E":"</a>",
                "I":"Title"
                },
                {
-               "S":"by <a href=\"user?id=",
-               "E":"\"",
+               "S":"class=\"hnuser\">",
+               "E":"</a>",
                "I":"Username"
                },
                {
-               "S":">",
-               "E":"\"item?id=",
+               "S":"<span class=\"age\">",
+               "E":"<a ",
                "I":"TRASH"
                },
                {
@@ -156,8 +151,8 @@
                 ],
         "REG":[
                {
-               "S":"user?id=",
-               "E":"\">",
+               "S":"class=\"hnuser\">",
+               "E":"</a>",
                "I":"Username"
                },
                {
@@ -236,6 +231,6 @@
                  "E":"</textarea>",
                  "I":"about"
                  },
-                ]
+                 ]
     }
 }
