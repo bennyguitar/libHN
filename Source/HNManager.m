@@ -260,7 +260,7 @@ static HNManager * _sharedManager = nil;
 
 #pragma mark - Download Configuration
 - (void)downloadAndSetConfiguration {
-    NSURL *url = [NSURL URLWithString:@"https://raw.githubusercontent.com/bennyguitar/libHN/master/Source/hn.json"];
+    NSURL *url = [NSURL URLWithString:@"https://raw.githubusercontent.com/weiran/libHN/master/Source/hn.json"];
     NSMutableURLRequest *request = [[NSURLRequest requestWithURL:url] mutableCopy];
     NSOperationQueue *queue = [NSOperationQueue new];
     NSData *jsonData;
