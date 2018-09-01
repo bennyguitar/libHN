@@ -260,7 +260,7 @@ static HNManager * _sharedManager = nil;
 
 #pragma mark - Download Configuration
 - (void)downloadAndSetConfiguration {
-    NSURL *url = [NSURL URLWithString:@"https://raw.githubusercontent.com/bennyguitar/libHN/master/Source/hn.json"];
+    NSURL *url = [NSURL URLWithString:@"https://raw.githubusercontent.com/weiran/libHN/master/Source/hn.json"];
     NSMutableURLRequest *request = [[NSURLRequest requestWithURL:url] mutableCopy];
     NSOperationQueue *queue = [NSOperationQueue new];
     NSData *jsonData;
@@ -287,7 +287,7 @@ static HNManager * _sharedManager = nil;
             NSString *newData = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             [[NSUserDefaults standardUserDefaults] setValue:newData forKey:kHNJSONConfigurationKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            self.JSONConfiguration = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:nil];
+            self.JSONConfiguration = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
             [[NSNotificationCenter defaultCenter] postNotificationName:kHNShouldReloadDataFromConfiguration object:nil];
         }
     }];
