@@ -295,14 +295,14 @@
             // Now attempt part 3
             NSString *html = [[NSString alloc] initWithData:blockOperation.responseData encoding:NSUTF8StringEncoding];
             if (html) {
-                if ([html rangeOfString:@"<a href=\"logout"].location != NSNotFound) {
+                if ([html rangeOfString:@"<a id='logout' href=\"logout"].location != NSNotFound) {
                     NSScanner *scanner = [[NSScanner alloc] initWithString:html];
                     NSString *trash = @"", *userString = @"", *karma=@"";
                     [scanner scanUpToString:@"<a href=\"threads?id=" intoString:&trash];
                     [scanner scanString:@"<a href=\"threads?id=" intoString:&trash];
                     [scanner scanUpToString:@"\">" intoString:&userString];
-                    [scanner scanUpToString:@"&nbsp;(" intoString:&trash];
-                    [scanner scanString:@"&nbsp;(" intoString:&trash];
+                    [scanner scanUpToString:@"(" intoString:&trash];
+                    [scanner scanString:@"(" intoString:&trash];
                     [scanner scanUpToString:@")" intoString:&karma];
                     [self getLoggedInUser:userString karma:[karma intValue] completion:completion];
                 }
