@@ -62,9 +62,9 @@ typedef void (^SuccessfulLoginBlock) (HNUser *user);
 #pragma mark - WebService Methods
 /**
  Attempts to login to HackerNews with a username and password.
- @param user   - HackerNews username
- @param pass   - HackerNews password
- @return    HNUser in the completion block if successful
+ @param user            - HackerNews username
+ @param pass            - HackerNews password
+ @param completion      - HNUser in the completion block if successful
  */
 - (void)loginWithUsername:(NSString *)user password:(NSString *)pass completion:(SuccessfulLoginBlock)completion;
 
@@ -75,55 +75,55 @@ typedef void (^SuccessfulLoginBlock) (HNUser *user);
 
 /**
  Loads posts from HN. The filter parameter filters your returned posts to Top, New, Ask, Jobs, or Best.
- @param filter   - PostFilterType for what you want
- @return    NSArray of HNPost objects
+ @param filter          - PostFilterType for what you want
+ @param completion      - NSArray of HNPost objects
  */
 - (void)loadPostsWithFilter:(PostFilterType)filter completion:(GetPostsCompletion)completion;
 
 /**
  Loads posts from HN using a url addition. HN uses an fnid or /news2 to grab the next batch of posts. Use this method to grab posts 31 - n of whatever filter type you are on. The most common urlAddition is stored in the [[HNManager sharedManager] postUrlAddition] object.
- @param urlAddition   - NSString of the url addition.
- @return    NSArray of HNPost objects
+ @param urlAddition     - NSString of the url addition.
+ @param completion      - NSArray of HNPost objects
  */
 - (void)loadPostsWithUrlAddition:(NSString *)urlAddition completion:(GetPostsCompletion)completion;
 
 /**
  Loads comments for a given HNPost object.
- @param post   - HNPost object.
- @return    NSArray of HNComment objects
+ @param post            - HNPost object.
+ @param completion      - NSArray of HNComment objects
  */
 - (void)loadCommentsFromPost:(HNPost *)post completion:(GetCommentsCompletion)completion;
 
 /**
  Attempts to submit a new HNPost object to HackerNews. You must have a title, and you must have either a link or text. If you don't, the completion block will return NO. If the completion block returns YES, then your submission was successful and is live on HN.
- @param title   - The title of the new post (required)
- @param link    - Link of the new post (optional)
- @param text    - Text post to HN, instead of a link (optional)
- @return    BOOL for success
+ @param title           - The title of the new post (required)
+ @param link            - Link of the new post (optional)
+ @param text            - Text post to HN, instead of a link (optional)
+ @param completion      - BOOL for success
  */
 - (void)submitPostWithTitle:(NSString *)title link:(NSString *)link text:(NSString *)text completion:(BooleanSuccessBlock)completion;
 
 /**
  Attempts to submit a new HNComment object to HackerNews. This can be a comment on an HNPost or another HNComment object. hnObject and text must not be nil.
- @param hnObject   - HNPost or HNComment (required)
- @param text       - Comment text (required)
- @return    BOOL for success
+ @param hnObject        - HNPost or HNComment (required)
+ @param text            - Comment text (required)
+ @param completion      - BOOL for success
  */
 - (void)replyToPostOrComment:(id)hnObject withText:(NSString *)text completion:(BooleanSuccessBlock)completion;
 
 /**
  Attempts to vote on an HNPost or HNComment object. You can only vote UP on HNPost objects. A user can only vote DOWN on HNComment objects if they have >= 500 karma points.
- @param hnObject   - HNPost or HNComment (required)
- @param direction  - VoteDirection enum (required)
- @return    BOOL for success
+ @param hnObject        - HNPost or HNComment (required)
+ @param direction       - VoteDirection enum (required)
+ @param completion      - BOOL for success
  */
 - (void)voteOnPostOrComment:(id)hnObject direction:(VoteDirection)direction completion:(BooleanSuccessBlock)completion;
 
 /**
  Loads posts from HN for a given username. To get the next batch of posts for a user, use the [[HNManager sharedManager] userSubmissionUrlAddition] object and the - (void)loadPostsWithUrlAddition:(NSString *)urlAddition completion:(GetPostsCompletion)completion method.
- @param user        - NSString of the username
- @param urlAddition - NSString of the additional path component
- @return    NSArray of HNPost objects
+ @param user            - NSString of the username
+ @param urlAddition     - NSString of the additional path component
+ @param competion       - NSArray of HNPost objects
  */
 - (void)fetchSubmissionsForUser:(NSString *)user urlAddition:(NSString *)urlAddition completion:(GetPostsCompletion)completion;
 
@@ -133,28 +133,28 @@ typedef void (^SuccessfulLoginBlock) (HNUser *user);
 #pragma mark - Mark as Read
 /**
  Determines if a user has read an HNPost object.
- @param post   - HNPost object
- @return    BOOL for YES they have read or NO they have not.
+ @param post            - HNPost object
+ @return                - BOOL for YES they have read or NO they have not.
  */
 - (BOOL)hasUserReadPost:(HNPost *)post;
 
 /**
  Adds an HNPost to the Manager for knowing if a user has read it or not. This is syncronized with the NSUserDefaults to keep track any time the app is used.
- @param post   - HNPost object
+ @param post            - HNPost object
  */
 - (void)setMarkAsReadForPost:(HNPost *)post;
 
 #pragma mark - Voted On
 /**
  Determines if a user has voted on an HNPost or HNComment object.
- @param hnObject   - HNPost or HNComment object
- @return    BOOL for YES they have voted or NO they have not.
+ @param hnObject        - HNPost or HNComment object
+ @return                - BOOL for YES they have voted or NO they have not.
  */
 - (BOOL)hasVotedOnObject:(id)hnObject;
 
 /**
  Adds an HNPost or HNComment to the Manager for knowing if a user has voted on  it or not. This is syncronized with the NSUserDefaults to keep track any time the app is used.
- @param hnObject   - HNPost or HNComment object
+ @param hnObject        - HNPost or HNComment object
  */
 - (void)addHNObjectToVotedOnDictionary:(id)hnObject direction:(VoteDirection)direction;
 
